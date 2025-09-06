@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Daily Routine</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- jsPDF for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #121212; /* Deeper dark background */
+            color: #d1d5db; /* Lighter text color for contrast */
+        }
+        .card-custom {
+            background-color: #1f1f1f; /* Darker card background */
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.15);
+            border: none;
+            transition: all 0.3s ease-in-out;
+        }
+        .header {
+            background: #000000; /* True black header */
+        }
+        .nav-link.active {
+            font-weight: bold;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+        /* Custom styles for the scrolling banner */
+        .scrolling-banner-container {
+            width: 100%;
+            overflow: hidden;
+            background: #121212;
+            color: #fde047; /* Bright yellow */
+            padding: 1rem 0;
+            white-space: nowrap;
+        }
+        .scrolling-banner {
+            display: inline-block;
+            animation: scroll-left 40s linear infinite;
+        }
+        .scrolling-banner a {
+            display: inline-block;
+            padding: 0 1.5rem;
+            text-decoration: none;
+            font-weight: 500;
+            color: #fde047; /* Bright yellow links */
+            transition: color 0.2s ease-in-out;
+        }
+        .scrolling-banner a:hover {
+            color: #f59e0b;
+        }
+        @keyframes scroll-left {
+            0% {
+                transform: translateX(0%);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+        /* Style for placeholder text to make it visible */
+        .form-control::placeholder,
+        .card-custom input::placeholder {
+            color: #9ca3af; /* Light gray for visibility */
+            opacity: 1; /* Ensure it's not transparent */
+        }
+        .up-arrow, .down-arrow {
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+        .up-arrow:hover {
+            transform: translateY(-2px);
+        }
+        .down-arrow:hover {
+            transform: translateY(2px);
+        }
+        .notes-widget {
+            resize: vertical;
+        }
+        .stopwatch-button {
+            transition: all 0.2s ease-in-out;
+        }
+        .stopwatch-button:hover {
+            transform: scale(1.05);
+        }
+        .completed-checkbox:checked + span {
+            text-decoration: line-through;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header Section -->
+    <header class="header text-white py-6 shadow-md rounded-b-xl">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">The Daily Grind</h1>
+            <p class="text-lg mt-2 text-gray-400">Time to crush your goals.</p>
+        </div>
+    </header>
+
+    <!-- Main Content Section -->
+    <main class="container mx-auto mt-8 flex-grow px-4">
+        <div class="card-custom p-6 md:p-8">
+            <div class="flex flex-col md:flex-row md:justify-between items-center mb-6">
+                <h2 id="day-title" class="text-2xl md:text-3xl font-bold text-yellow-400"></h2>
+                <div class="mt-4 md:mt-0 flex flex-wrap justify-center">
+                    <!-- Day selection buttons -->
+                    <button class="day-btn px-4 py-2 mx-1 my-1 rounded-full text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Monday">Mon</button>
+                    <button class="day-btn px-4 py-2 mx-1 my-1 rounded-full text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Tuesday">Tue</button>
+                    <button class="day-btn px-4 py-2 mx-1 my-1 rounded-full text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Wednesday">Wed</button>
+                    <button class="day-btn px-4 py-2 mx-1 my-1 rounded-full text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Thursday">Thu</button>
+                    <button class="day-btn px-4 py-2 mx-1 my-1 rounded-full text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Friday">Fri</button>
+                    <button class="day-btn px-4 py-2 mx-1 my-1 rounded-full text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Saturday">Sat</button>
+                    <button class="day-btn px-4 py-2 mx-1 my-1 rounded-full text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Sunday">Sun</button>
+                </div>
+            </div>
+
+            <!-- Stopwatch Widget -->
+            <div class="flex flex-col items-center p-4 my-6 bg-gray-800 rounded-lg shadow-inner">
+                <h3 class="text-xl font-semibold mb-2 text-white">Stopwatch</h3>
+                <div id="stopwatch-display" class="text-4xl md:text-5xl font-mono text-yellow-400 my-4">00:00:00</div>
+                <div id="time-stamps" class="text-sm font-mono text-gray-400">
+                    <span id="start-time-display"></span>
+                    <span id="end-time-display"></span>
+                </div>
+                <div class="flex space-x-4 mt-4">
+                    <button id="start-btn" class="stopwatch-button px-4 py-2 rounded-full text-sm font-medium bg-green-500 text-white hover:bg-green-600">Start</button>
+                    <button id="stop-btn" class="stopwatch-button px-4 py-2 rounded-full text-sm font-medium bg-red-500 text-white hover:bg-red-600">Stop</button>
+                    <button id="reset-btn" class="stopwatch-button px-4 py-2 rounded-full text-sm font-medium bg-blue-500 text-white hover:bg-blue-600">Reset</button>
+                </div>
+            </div>
+            
+            <div id="routine-display" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Routine content will be dynamically inserted here -->
+            </div>
+
+            <div id="notes-widget" class="mt-8">
+                <h3 class="text-lg font-semibold mb-2 text-yellow-400">Notes</h3>
+                <textarea id="notes-textarea" class="notes-widget form-control w-full p-3 rounded-md border-gray-600 focus:border-yellow-400 focus:ring-yellow-400 bg-gray-800 text-white focus:bg-gray-800" rows="4" placeholder="Add your notes for today's workout..."></textarea>
+            </div>
+
+            <div id="rest-day-message" class="text-center py-10" style="display: none;">
+                <p class="text-xl text-gray-500 font-semibold">
+                    Rest is part of the process. You've earned it.
+                </p>
+            </div>
+            
+            <div id="edit-buttons" class="mt-8 flex justify-end space-x-4">
+                <button id="share-btn" class="px-4 py-2 rounded-full text-sm font-medium bg-blue-500 text-white hover:bg-blue-600 transition-colors duration-200">
+                    Share Routine
+                </button>
+                 <button id="add-category-btn" class="px-4 py-2 rounded-full text-sm font-medium bg-gray-600 text-white hover:bg-gray-700 transition-colors duration-200" style="display: none;">
+                    Add Muscle Group
+                </button>
+                 <button id="clear-all-routines-btn" class="px-4 py-2 rounded-full text-sm font-medium bg-purple-500 text-white hover:bg-purple-600 transition-colors duration-200">
+                    Forge Your Path
+                </button>
+                <button id="clear-storage-btn" class="px-4 py-2 rounded-full text-sm font-medium bg-red-500 text-white hover:bg-red-600 transition-colors duration-200">
+                    Reset To Default
+                </button>
+                <button id="edit-btn" class="px-4 py-2 rounded-full text-sm font-medium bg-yellow-400 text-black hover:bg-yellow-500 transition-colors duration-200">
+                    Edit Routine
+                </button>
+                <button id="save-btn" class="px-4 py-2 rounded-full text-sm font-medium bg-green-500 text-white hover:bg-green-600 transition-colors duration-200" style="display: none;">
+                    Save Routine
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scrolling Banner Section -->
+    <div class="scrolling-banner-container mt-8">
+        <div class="scrolling-banner">
+            <span class="font-bold text-yellow-400">💪 MORE INSPIRATION:</span>
+            <a href="https://www.youtube.com/@JeffNippard" target="_blank">Jeff Nippard</a>
+            <a href="https://www.youtube.com/@JesseJamesWest" target="_blank">Jesse James West</a>
+            <a href="https://www.youtube.com/@WillTennyson" target="_blank">Will Tennyson</a>
+            <a href="https://www.youtube.com/@JeremyEthier" target="_blank">Jeremy Ethier</a>
+            <a href="https://www.youtube.com/@yellowdude_co" target="_blank">Yellowdude Co</a>
+            <a href="https://www.youtube.com/@RenaissancePeriodization" target="_blank">Renaissance Periodization</a>
+            <a href="https://www.youtube.com/@sam_sulek" target="_blank">Sam Sulek</a>
+            <a href="https://www.youtube.com/@tyler-path" target="_blank">Tyler Path</a>
+            <a href="https://www.youtube.com/@trainerwinny" target="_blank">Trainer Winny</a>
+            <a href="https://www.youtube.com/@jordanyeohfitness" target="_blank">Jordan Yeoh Fitness</a>
+            <span class="font-bold text-yellow-400">💪 MORE INSPIRATION:</span>
+            <a href="https://www.youtube.com/@JeffNippard" target="_blank">Jeff Nippard</a>
+            <a href="https://www.youtube.com/@JesseJamesWest" target="_blank">Jesse James West</a>
+            <a href="https://www.youtube.com/@WillTennyson" target="_blank">Will Tennyson</a>
+            <a href="https://www.youtube.com/@JeremyEthier" target="_blank">Jeremy Ethier</a>
+            <a href="https://www.youtube.com/@yellowdude_co" target="_blank">Yellowdude Co</a>
+            <a href="https://www.youtube.com/@RenaissancePeriodization" target="_blank">Renaissance Periodization</a>
+            <a href="https://www.youtube.com/@sam_sulek" target="_blank">Sam Sulek</a>
+            <a href="https://www.youtube.com/@tyler-path" target="_blank">Tyler Path</a>
+            <a href="https://www.youtube.com/@trainerwinny" target="_blank">Trainer Winny</a>
+            <a href="https://www.youtube.com/@jordanyeohfitness" target="_blank">Jordan Yeoh Fitness</a>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="text-center py-4 text-gray-500 mt-8">
+        <p>Big Brrr's at <a href="https://cyberalliance.in" target="_blank" class="text-yellow-400 hover:text-yellow-300 font-medium">Cyber Alliance India</a> made this using Gemini to Help you grow. Your routine is saved right on your device, so you can train offline.</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let initialRoutines = {
+                'Monday': {
+                    notes: '',
+                    routine: [
+                        { category: 'Back', exercises: [{ name: 'Lat Pull Down (Wide Grip)', sets: 3, reps: 10, completed: false }, { name: 'Lat Pull Down (Close Grip)', sets: 3, reps: 10, completed: false }, { name: 'Chest Supported Rows', sets: 3, reps: 10, completed: false }] },
+                        { category: 'Traps', exercises: [{ name: 'Reverse Pec Deck', sets: 3, reps: 12, completed: false }, { name: 'Scapular Pull up', sets: 3, reps: 15, completed: false }] },
+                        { category: 'Arms (Tri)', exercises: [{ name: 'Overhead Cable Triceps Extensions', sets: 3, reps: 12, completed: false }, { name: 'Triceps Pressdowns', sets: 3, reps: 15, completed: false }, { name: 'Close-Grip Bench Press', sets: 3, reps: 10, completed: false }] },
+                        { category: 'Cardio', exercises: [{ name: '2 Mins Cycle', sets: 1, reps: null, completed: false }, { name: '3 Mins Running', sets: 1, reps: null, completed: false }, { name: 'Running (Post Gym)', sets: 1, reps: null, completed: false }] }
+                    ]
+                },
+                'Tuesday': {
+                    notes: '',
+                    routine: [
+                        { category: 'Chest', exercises: [{ name: 'Dumbbell Press (Incline)', sets: 3, reps: 10, completed: false }, { name: 'Barbell Bench Press', sets: 3, reps: 8, completed: false }] },
+                        { category: 'Shoulders', exercises: [{ name: 'Machine Shoulder Press', sets: 3, reps: 12, completed: false }, { name: 'Cable Lateral Raise', sets: 3, reps: 15, completed: false }, { name: 'Reverse Pec Deck Machine', sets: 3, reps: 12, completed: false }] },
+                        { category: 'Pushups', exercises: [{ name: 'Pushups', sets: 3, reps: 20, completed: false }] },
+                        { category: 'Cardio', exercises: [{ name: '2 Mins Cycle', sets: 1, reps: null, completed: false }, { name: '3 Mins Running', sets: 1, reps: null, completed: false }, { name: 'Running (Post Gym)', sets: 1, reps: null, completed: false }] }
+                    ]
+                },
+                'Wednesday': {
+                    notes: '',
+                    routine: [
+                        { category: 'Legs', exercises: [{ name: 'Hack Squat', sets: 3, reps: 10, completed: false }, { name: 'Leg Extension', sets: 3, reps: 12, completed: false }, { name: 'Romanian Deadlift (RDL)', sets: 3, reps: 10, completed: false }, { name: 'Walking Lunge', sets: 3, reps: 12, completed: false }, { name: 'Standing Calf Raises', sets: 3, reps: 15, completed: false }] },
+                        { category: 'Core', exercises: [{ name: 'Weighted Cable Crunches', sets: 3, reps: 15, completed: false }] },
+                        { category: 'Forearms', exercises: [{ name: 'Dumbbell Wrist Curls (Supinated)', sets: 3, reps: 15, completed: false }, { name: 'Dumbbell Wrist Curls (Pronated)', sets: 3, reps: 15, completed: false }, { name: 'Plate Pinches', sets: 3, reps: 60, completed: false }] },
+                        { category: 'Cardio', exercises: [{ name: '5 Mins Cycle', sets: 1, reps: null, completed: false }, { name: '10 Mins Running', sets: 1, reps: null, completed: false }] }
+                    ]
+                },
+                'Thursday': {
+                    notes: '',
+                    routine: [
+                        { category: 'Back', exercises: [{ name: 'Seated Row (Wide Grip)', sets: 3, reps: 10, completed: false }, { name: 'Seated Row (Close Grip)', sets: 3, reps: 10, completed: false }, { name: 'Half-Kneeling One-Arm Pulldown', sets: 3, reps: 12, completed: false }] },
+                        { category: 'Traps', exercises: [{ name: 'Face Pulls', sets: 3, reps: 15, completed: false }, { name: 'Scapular Pull up', sets: 3, reps: 15, completed: false }] },
+                        { category: 'Arms (Bi)', exercises: [{ name: 'Incline Dumbbell Curl', sets: 3, reps: 12, completed: false }, { name: 'Preacher Curl (Hammer)', sets: 3, reps: 10, completed: false }, { name: 'Bayesian Cable Curl', sets: 3, reps: 12, completed: false }] },
+                        { category: 'Cardio', exercises: [{ name: '3 Mins Cycle', sets: 1, reps: null, completed: false }, { name: '7 Mins Running', sets: 1, reps: null, completed: false }, { name: 'Running (Post Gym)', sets: 1, reps: null, completed: false }] }
+                    ]
+                },
+                'Friday': {
+                    notes: '',
+                    routine: [
+                        { category: 'Chest', exercises: [{ name: 'Barbell Bench Press (Incline)', sets: 3, reps: 8, completed: false }, { name: 'Pec Deck Machine', sets: 3, reps: 12, completed: false }] },
+                        { category: 'Shoulders', exercises: [{ name: 'Barbell Overhead Press', sets: 3, reps: 10, completed: false }, { name: 'Lean-In Dumbbell Lateral Raise', sets: 3, reps: 15, completed: false }, { name: 'Reverse Cable Crossover', sets: 3, reps: 12, completed: false }] },
+                        { category: 'Pushups', url: 'https://www.youtube.com/results?search_query=Pushups', exercises: [{ name: 'Pushups', sets: 3, reps: 20, completed: false }] },
+                        { category: 'Cardio', exercises: [{ name: '3 Mins Cycle', sets: 1, reps: null, completed: false }, { name: '7 Mins Running', sets: 1, reps: null, completed: false }, { name: 'Running (Post Gym)', sets: 1, reps: null, completed: false }] }
+                    ]
+                },
+                'Saturday': {
+                    notes: '',
+                    routine: [
+                        { category: 'Legs', exercises: [{ name: 'Bulgarian Split Squat', sets: 3, reps: 12, completed: false }, { name: 'Barbell Back Squat', sets: 3, reps: 10, completed: false }, { name: 'Seated Hamstring Curl', sets: 3, reps: 12, completed: false }, { name: 'Walking Lunge', sets: 3, reps: 15, completed: false }, { name: 'Standing Calf Raises', sets: 3, reps: 20, completed: false }] },
+                        { category: 'Core', exercises: [{ name: 'Weighted Cable Crunches', sets: 3, reps: 15, completed: false }, { name: 'Hanging Leg Raises', sets: 3, reps: 15, completed: false }] },
+                        { category: 'Forearms', exercises: [{ name: 'Dumbbell Wrist Curls (Supinated)', sets: 3, reps: 15, completed: false }, { name: 'Dumbbell Wrist Curls (Pronated)', sets: 3, reps: 15, completed: false }, { name: 'Plate Pinches', sets: 3, reps: 60, completed: false }] },
+                        { category: 'Cardio', exercises: [{ name: '5 Mins Cycle', sets: 1, reps: null, completed: false }, { name: '10 Mins Running', sets: 1, reps: null, completed: false }] }
+                    ]
+                },
+                'Sunday': {
+                    notes: '',
+                    routine: []
+                }
+            };
+
+            let routines = {};
+
+            const dayTitleEl = document.getElementById('day-title');
+            const routineDisplayEl = document.getElementById('routine-display');
+            const restDayMessageEl = document.getElementById('rest-day-message');
+            const notesTextarea = document.getElementById('notes-textarea');
+            const dayButtons = document.querySelectorAll('.day-btn');
+            const editBtn = document.getElementById('edit-btn');
+            const saveBtn = document.getElementById('save-btn');
+            const clearStorageBtn = document.getElementById('clear-storage-btn');
+            const clearAllBtn = document.getElementById('clear-all-routines-btn');
+            const addCategoryBtn = document.getElementById('add-category-btn');
+            const shareBtn = document.getElementById('share-btn');
+            
+            // Stopwatch elements
+            const stopwatchDisplay = document.getElementById('stopwatch-display');
+            const startBtn = document.getElementById('start-btn');
+            const stopBtn = document.getElementById('stop-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const startTimeDisplay = document.getElementById('start-time-display');
+            const endTimeDisplay = document.getElementById('end-time-display');
+
+            let timer;
+            let timeElapsed = 0;
+            let isRunning = false;
+            let routineStartTime = null;
+            let routineEndTime = null;
+            
+            let isEditing = false;
+            let currentDay = '';
+
+            // Load routines from localStorage or use defaults
+            const loadRoutines = () => {
+                const savedRoutines = localStorage.getItem('dailyRoutines');
+                if (savedRoutines) {
+                    routines = JSON.parse(savedRoutines);
+                } else {
+                    // Deep copy initial routines to avoid modifying the original template
+                    routines = JSON.parse(JSON.stringify(initialRoutines)); 
+                }
+            };
+
+            loadRoutines();
+
+            const displayRoutine = (day, editing = false) => {
+                isEditing = editing;
+                currentDay = day;
+
+                dayButtons.forEach(btn => {
+                    if (btn.dataset.day === day) {
+                        btn.classList.add('bg-yellow-400', 'text-black');
+                        btn.classList.remove('bg-gray-700', 'hover:bg-gray-600', 'text-gray-300');
+                    } else {
+                        btn.classList.remove('bg-yellow-400', 'text-black');
+                        btn.classList.add('bg-gray-700', 'hover:bg-gray-600', 'text-gray-300');
+                    }
+                });
+
+                dayTitleEl.textContent = `${day}'s Routine`;
+                routineDisplayEl.innerHTML = '';
+                
+                const routineData = routines[day] || { notes: '', routine: [] };
+                const routine = routineData.routine;
+
+                // Notes textarea is always editable, independent of editing state
+                notesTextarea.value = routineData.notes;
+                
+                if (isEditing) {
+                    routine.forEach((section, categoryIndex) => {
+                        const sectionDiv = document.createElement('div');
+                        sectionDiv.className = 'card-custom p-4 relative';
+                        sectionDiv.innerHTML = `
+                             <div class="absolute top-2 right-2 flex flex-col items-center">
+                                 <button class="up-arrow-category text-gray-400 hover:text-yellow-400 transition-colors" data-index="${categoryIndex}">
+                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                                     </svg>
+                                 </button>
+                                 <button class="down-arrow-category text-gray-400 hover:text-yellow-400 transition-colors" data-index="${categoryIndex}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                     </svg>
+                                 </button>
+                             </div>
+                            <input type="text" value="${section.category}" class="category-name form-control text-lg font-semibold mb-2 text-yellow-400 w-full rounded-md border-gray-600 focus:border-yellow-400 focus:ring-yellow-400 bg-gray-800 text-white focus:bg-gray-800" placeholder="Category Name">
+                            <div class="space-y-2 exercises-container">
+                                ${section.exercises.map((exercise, exerciseIndex) => `
+                                    <div class="flex flex-col mb-4 relative exercise-item">
+                                        <div class="flex items-center space-x-2">
+                                            <div class="flex-grow">
+                                                <label for="exercise-name-${categoryIndex}-${exerciseIndex}" class="text-xs text-gray-400 block mb-1">Exercise Name</label>
+                                                <input id="exercise-name-${categoryIndex}-${exerciseIndex}" type="text" value="${exercise.name}" class="exercise-name form-control w-full rounded-md border-gray-600 focus:border-yellow-400 focus:ring-yellow-400 bg-gray-800 text-white focus:bg-gray-800" placeholder="Exercise Name">
+                                            </div>
+                                            <div>
+                                                <label for="exercise-sets-${categoryIndex}-${exerciseIndex}" class="text-xs text-gray-400 block mb-1">Sets</label>
+                                                <input id="exercise-sets-${categoryIndex}-${exerciseIndex}" type="number" value="${exercise.sets !== null ? exercise.sets : ''}" class="exercise-sets w-16 text-center form-control rounded-md border-gray-600 focus:border-yellow-400 focus:ring-yellow-400 bg-gray-800 text-white focus:bg-gray-800" placeholder="Sets">
+                                            </div>
+                                            <div>
+                                                <label for="exercise-reps-${categoryIndex}-${exerciseIndex}" class="text-xs text-gray-400 block mb-1">Reps</label>
+                                                <input id="exercise-reps-${categoryIndex}-${exerciseIndex}" type="number" value="${exercise.reps !== null ? exercise.reps : ''}" class="exercise-reps w-16 text-center form-control rounded-md border-gray-600 focus:border-yellow-400 focus:ring-yellow-400 bg-gray-800 text-white focus:bg-gray-800" placeholder="Reps">
+                                            </div>
+                                        </div>
+                                        <div class="mt-2 flex items-center space-x-2">
+                                            <div class="flex-grow">
+                                                <label for="exercise-url-${categoryIndex}-${exerciseIndex}" class="text-xs text-gray-400 block mb-1">YouTube URL</label>
+                                                <input id="exercise-url-${categoryIndex}-${exerciseIndex}" type="text" value="${exercise.url || ''}" class="exercise-url form-control w-full rounded-md border-gray-600 focus:border-yellow-400 focus:ring-yellow-400 bg-gray-800 text-white focus:bg-gray-800" placeholder="YouTube URL">
+                                            </div>
+                                            <div class="flex flex-col items-center">
+                                                <button class="up-arrow-exercise text-gray-400 hover:text-yellow-400 transition-colors" data-category-index="${categoryIndex}" data-exercise-index="${exerciseIndex}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                                                    </svg>
+                                                </button>
+                                                <button class="delete-exercise-btn text-red-500 hover:text-red-400 transition-colors" data-category-index="${categoryIndex}" data-exercise-index="${exerciseIndex}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm6 0a1 1 0 112 0v6a1 1 0 11-2 0V8z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </button>
+                                                <button class="down-arrow-exercise text-gray-400 hover:text-yellow-400 transition-colors" data-category-index="${categoryIndex}" data-exercise-index="${exerciseIndex}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <button class="add-exercise-btn mt-2 w-full px-3 py-1 bg-yellow-400 text-black rounded-md hover:bg-yellow-500 transition-colors duration-200" data-category-index="${categoryIndex}">+ Add Exercise</button>
+                        `;
+                        routineDisplayEl.appendChild(sectionDiv);
+                    });
+
+                    routineDisplayEl.style.display = 'grid';
+                    restDayMessageEl.style.display = 'none';
+                    editBtn.style.display = 'none';
+                    shareBtn.style.display = 'none';
+                    saveBtn.style.display = 'block';
+                    addCategoryBtn.style.display = 'block';
+                } else {
+                    if (routine.length > 0) {
+                        routine.forEach(section => {
+                            const sectionDiv = document.createElement('div');
+                            sectionDiv.className = 'card-custom p-4';
+                            const exercisesHtml = section.exercises.map((exercise, exerciseIndex) => {
+                                const url = exercise.url && exercise.url.trim() !== '' 
+                                    ? exercise.url 
+                                    : `https://www.youtube.com/results?search_query=${encodeURIComponent(exercise.name)}`;
+                                const completedClass = exercise.completed ? 'completed-text' : '';
+                                const setsRepsHtml = exercise.sets && exercise.reps ? `<span class="text-sm font-semibold text-gray-500 ml-2">(${exercise.sets} Sets x ${exercise.reps} Reps)</span>` : '';
+                                return `
+                                <li class="my-1 text-gray-400 flex items-center">
+                                    <input type="checkbox" data-category="${section.category}" data-exercise-index="${exerciseIndex}" ${exercise.completed ? 'checked' : ''} class="completed-checkbox mr-2 w-4 h-4 text-yellow-400 bg-gray-700 rounded border-gray-600 focus:ring-yellow-400">
+                                    <span class="${completedClass}">
+                                        <a href="${url}" target="_blank" class="hover:text-yellow-400 transition-colors">${exercise.name}</a>
+                                        ${setsRepsHtml}
+                                    </span>
+                                </li>`;
+                            }).join('');
+                            
+                            sectionDiv.innerHTML = `
+                                <h3 class="text-lg font-semibold mb-2 text-yellow-400">${section.category}</h3>
+                                <ul class="list-disc list-inside">
+                                    ${exercisesHtml}
+                                </ul>
+                            `;
+                            routineDisplayEl.appendChild(sectionDiv);
+                        });
+
+                        routineDisplayEl.style.display = 'grid';
+                        restDayMessageEl.style.display = 'none';
+                    } else {
+                        routineDisplayEl.style.display = 'none';
+                        restDayMessageEl.style.display = 'block';
+                    }
+                    editBtn.style.display = 'block';
+                    shareBtn.style.display = 'block';
+                    saveBtn.style.display = 'none';
+                    addCategoryBtn.style.display = 'none';
+                }
+            };
+            
+            const saveRoutine = () => {
+                const updatedRoutine = [];
+                const routineSections = routineDisplayEl.querySelectorAll('.card-custom');
+                routineSections.forEach(section => {
+                    const category = section.querySelector('.category-name').value.trim();
+                    const exercises = [];
+                    const exerciseItems = section.querySelectorAll('.exercise-item');
+
+                    exerciseItems.forEach(item => {
+                        const name = item.querySelector('.exercise-name').value.trim();
+                        const sets = item.querySelector('.exercise-sets').value.trim();
+                        const reps = item.querySelector('.exercise-reps').value.trim();
+                        let url = item.querySelector('.exercise-url').value.trim();
+                        
+                        if (name !== '') {
+                            if (url === '') {
+                                url = `https://www.youtube.com/results?search_query=${encodeURIComponent(name)}`;
+                            }
+                            exercises.push({ 
+                                name: name, 
+                                url: url,
+                                sets: sets !== '' ? parseInt(sets) : null,
+                                reps: reps !== '' ? parseInt(reps) : null,
+                                completed: false
+                            });
+                        }
+                    });
+
+                    if (category !== '' || exercises.length > 0) {
+                        updatedRoutine.push({ category, exercises });
+                    }
+                });
+
+                routines[currentDay] = {
+                    notes: notesTextarea.value,
+                    routine: updatedRoutine
+                };
+                localStorage.setItem('dailyRoutines', JSON.stringify(routines));
+                displayRoutine(currentDay, false);
+            };
+
+            const swapElements = (arr, index1, index2) => {
+                [arr[index1], arr[index2]] = [arr[index2], arr[index1]];
+            };
+
+            // Event listeners for day buttons
+            dayButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const day = event.target.dataset.day;
+                    displayRoutine(day);
+                });
+            });
+
+            editBtn.addEventListener('click', () => {
+                displayRoutine(currentDay, true);
+            });
+
+            saveBtn.addEventListener('click', saveRoutine);
+
+            clearStorageBtn.addEventListener('click', () => {
+                localStorage.setItem('dailyRoutines', JSON.stringify(initialRoutines));
+                routines = JSON.parse(JSON.stringify(initialRoutines));
+                displayRoutine(currentDay);
+            });
+            
+            clearAllBtn.addEventListener('click', () => {
+                localStorage.removeItem('dailyRoutines');
+                routines = {
+                    'Monday': { routine: [], notes: '' },
+                    'Tuesday': { routine: [], notes: '' },
+                    'Wednesday': { routine: [], notes: '' },
+                    'Thursday': { routine: [], notes: '' },
+                    'Friday': { routine: [], notes: '' },
+                    'Saturday': { routine: [], notes: '' },
+                    'Sunday': { routine: [], notes: '' }
+                };
+                displayRoutine(currentDay);
+            });
+            
+            addCategoryBtn.addEventListener('click', () => {
+                const newCategory = { category: 'New Category', exercises: [] };
+                if (!routines[currentDay]) {
+                    routines[currentDay] = { notes: '', routine: [] };
+                }
+                routines[currentDay].routine.push(newCategory);
+                displayRoutine(currentDay, true);
+            });
+
+            // Notes auto-save listener, independent of routine editing
+            notesTextarea.addEventListener('input', () => {
+                 if (routines[currentDay]) {
+                    routines[currentDay].notes = notesTextarea.value;
+                    localStorage.setItem('dailyRoutines', JSON.stringify(routines));
+                 }
+            });
+
+            // Stopwatch logic
+            const formatTime = (ms) => {
+                let seconds = Math.floor(ms / 1000);
+                let minutes = Math.floor(seconds / 60);
+                let hours = Math.floor(minutes / 60);
+
+                seconds = seconds % 60;
+                minutes = minutes % 60;
+
+                return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            };
+
+            startBtn.addEventListener('click', () => {
+                if (!isRunning) {
+                    isRunning = true;
+                    routineStartTime = new Date();
+                    startTimeDisplay.textContent = `Start: ${routineStartTime.toLocaleTimeString()}`;
+                    endTimeDisplay.textContent = '';
+                    let startTime = Date.now() - timeElapsed;
+                    timer = setInterval(() => {
+                        timeElapsed = Date.now() - startTime;
+                        stopwatchDisplay.textContent = formatTime(timeElapsed);
+                    }, 1000); // Update every second
+                }
+            });
+
+            stopBtn.addEventListener('click', () => {
+                if (isRunning) {
+                    isRunning = false;
+                    clearInterval(timer);
+                    routineEndTime = new Date();
+                    endTimeDisplay.textContent = `End: ${routineEndTime.toLocaleTimeString()}`;
+                }
+            });
+
+            resetBtn.addEventListener('click', () => {
+                if (isRunning) {
+                    clearInterval(timer);
+                }
+                isRunning = false;
+                timeElapsed = 0;
+                stopwatchDisplay.textContent = '00:00:00';
+                routineStartTime = null;
+                routineEndTime = null;
+                startTimeDisplay.textContent = '';
+                endTimeDisplay.textContent = '';
+            });
+
+            // PDF generation
+            shareBtn.addEventListener('click', () => {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                const margin = 15;
+                let y = margin;
+                const lineHeight = 7;
+                const today = new Date().toLocaleDateString();
+
+                doc.setFontSize(22);
+                doc.setFont("helvetica", "bold");
+                doc.text(`${currentDay}'s Routine`, 20, y);
+                y += 10;
+                doc.setFontSize(10);
+                doc.text(`Generated on: ${today}`, 20, y);
+                y += 5;
+
+                if (routineStartTime) {
+                    doc.text(`Workout Start: ${routineStartTime.toLocaleTimeString()}`, 20, y);
+                    y += 5;
+                }
+                if (routineEndTime) {
+                    doc.text(`Workout End: ${routineEndTime.toLocaleTimeString()}`, 20, y);
+                    y += 5;
+                }
+                y += 10;
+
+                const routineData = routines[currentDay] || { routine: [], notes: '' };
+                const routine = routineData.routine;
+                const notes = routineData.notes;
+
+                doc.setFontSize(16);
+                doc.setFont("helvetica", "bold");
+
+                if (routine.length > 0) {
+                    routine.forEach(section => {
+                        if (y > 280) {
+                            doc.addPage();
+                            y = margin;
+                        }
+                        doc.text(section.category, 20, y);
+                        y += 5;
+
+                        doc.setFontSize(12);
+                        doc.setFont("helvetica", "normal");
+                        section.exercises.forEach(exercise => {
+                            if (y > 280) {
+                                doc.addPage();
+                                y = margin;
+                                doc.setFontSize(16);
+                                doc.setFont("helvetica", "bold");
+                                doc.text(section.category, 20, y);
+                                y += 5;
+                                doc.setFontSize(12);
+                                doc.setFont("helvetica", "normal");
+                            }
+                            const setsReps = exercise.sets && exercise.reps ? ` - ${exercise.sets} sets x ${exercise.reps} reps` : '';
+                            const statusText = exercise.completed ? ' (Completed)' : ' (Bailed)';
+                            doc.text(`- ${exercise.name}${setsReps}${statusText}`, 25, y);
+                            y += lineHeight;
+                        });
+                        y += 10;
+                    });
+                } else {
+                    doc.setFontSize(14);
+                    doc.text("Rest Day - No routine planned.", 20, y);
+                    y += 20;
+                }
+
+                if (notes) {
+                    doc.setFontSize(16);
+                    doc.setFont("helvetica", "bold");
+                    doc.text("Notes", 20, y);
+                    y += 5;
+                    doc.setFontSize(12);
+                    doc.setFont("helvetica", "normal");
+                    const splitNotes = doc.splitTextToSize(notes, 170); // 170mm width
+                    doc.text(splitNotes, 25, y);
+                }
+
+                doc.save(`${currentDay}_Workout_Routine.pdf`);
+            });
+
+            // Handle adding/deleting/reordering in edit mode
+            document.addEventListener('click', (event) => {
+                const addBtn = event.target.closest('.add-exercise-btn');
+                const deleteBtn = event.target.closest('.delete-exercise-btn');
+                const upCatBtn = event.target.closest('.up-arrow-category');
+                const downCatBtn = event.target.closest('.down-arrow-category');
+                const upExBtn = event.target.closest('.up-arrow-exercise');
+                const downExBtn = event.target.closest('.down-arrow-exercise');
+                const completedCheckbox = event.target.closest('.completed-checkbox');
+                
+                if (addBtn) {
+                    const categoryIndex = addBtn.dataset.categoryIndex;
+                    const routineSection = routines[currentDay].routine[categoryIndex];
+                    routineSection.exercises.push({ name: '', sets: null, reps: null, completed: false, url: '' });
+                    displayRoutine(currentDay, true);
+                } else if (deleteBtn) {
+                    const categoryIndex = deleteBtn.dataset.categoryIndex;
+                    const exerciseIndex = deleteBtn.dataset.exerciseIndex;
+                    const routineSection = routines[currentDay].routine[categoryIndex];
+                    routineSection.exercises.splice(exerciseIndex, 1);
+                    if (routineSection.exercises.length === 0 && routines[currentDay].routine.length > 1) {
+                        routines[currentDay].routine.splice(categoryIndex, 1);
+                    }
+                    displayRoutine(currentDay, true);
+                } else if (upCatBtn) {
+                    const index = parseInt(upCatBtn.dataset.index);
+                    if (index > 0) {
+                        swapElements(routines[currentDay].routine, index, index - 1);
+                        displayRoutine(currentDay, true);
+                    }
+                } else if (downCatBtn) {
+                    const index = parseInt(downCatBtn.dataset.index);
+                    if (index < routines[currentDay].routine.length - 1) {
+                        swapElements(routines[currentDay].routine, index, index + 1);
+                        displayRoutine(currentDay, true);
+                    }
+                } else if (upExBtn) {
+                    const categoryIndex = parseInt(upExBtn.dataset.categoryIndex);
+                    const exerciseIndex = parseInt(upExBtn.dataset.exerciseIndex);
+                    if (exerciseIndex > 0) {
+                        const exercises = routines[currentDay].routine[categoryIndex].exercises;
+                        swapElements(exercises, exerciseIndex, exerciseIndex - 1);
+                        displayRoutine(currentDay, true);
+                    }
+                } else if (downExBtn) {
+                    const categoryIndex = parseInt(downExBtn.dataset.categoryIndex);
+                    const exerciseIndex = parseInt(downExBtn.dataset.exerciseIndex);
+                    const exercises = routines[currentDay].routine[categoryIndex].exercises;
+                    if (exerciseIndex < exercises.length - 1) {
+                        swapElements(exercises, exerciseIndex, exerciseIndex + 1);
+                        displayRoutine(currentDay, true);
+                    }
+                } else if (completedCheckbox && !isEditing) {
+                    const categoryName = completedCheckbox.dataset.category;
+                    const exerciseIndex = completedCheckbox.dataset.exerciseIndex;
+                    const routineSection = routines[currentDay].routine.find(sec => sec.category === categoryName);
+                    if (routineSection) {
+                         routineSection.exercises[exerciseIndex].completed = completedCheckbox.checked;
+                         localStorage.setItem('dailyRoutines', JSON.stringify(routines));
+                    }
+                }
+            });
+
+            // Display current day's routine on page load
+            const today = new Date();
+            const istDate = new Date(today.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+            const todayDayName = istDate.toLocaleDateString('en-US', { weekday: 'long' });
+            
+            displayRoutine(todayDayName);
+        });
+    </script>
+</body>
+</html>
