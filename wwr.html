@@ -3,7 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Daily Routine</title>
+    <title>The Daily Grind </title>
+
+    <!--
+    SEO and Meta Tags
+    These tags help search engines understand your content.
+    -->
+    <meta name="description" content="Cyber Alliance India presents The Daily Grind - Your Ultimate Workout Companion. Track your routines, stay motivated, and achieve your fitness goals with ease.">
+    <meta name="keywords" content="made with gemini, ai, cyber alliance india, workout, tracker, fitness, routine, exercise, health, daily grind, gym, training, muscle, strength, cardio">
+    <link rel="canonical" href="https://links.cyberalliance.in/wwr.html">
+
+    <!--
+    Open Graph (OG) Tags
+    These tags control how your page looks when shared on social media like Facebook, Twitter, and LinkedIn.
+    -->
+    <meta property="og:title" content="The Daily Grind - Your Ultimate Workout Companion">
+    <meta property="og:description" content="Track your routines with ease, all data stored locally on device.">
+    <meta property="og:image" content="/img/gym">
+    <meta property="og:url" content="img/gym.webp">
+    <meta property="og:type" content="website">
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Tailwind CSS -->
@@ -107,17 +126,18 @@
     <!-- Main Content Section -->
     <main class="container mx-auto mt-8 flex-grow px-4">
         <div class="card-custom p-6 md:p-8">
+            <!-- Day Selection and Title Section -->
             <div class="flex flex-col md:flex-row md:justify-between items-center mb-6">
-                <h2 id="day-title" class="text-2xl md:text-3xl font-bold text-yellow-400"></h2>
+                <h2 id="day-title" class="text-2xl md:text-3xl font-bold text-yellow-400 text-center md:text-left"></h2>
                 <div class="mt-4 md:mt-0 flex flex-wrap justify-center">
                     <!-- Day selection buttons -->
-                    <button class="day-btn px-4 py-2 mx-1 my-1 rounded-full text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Monday">Mon</button>
-                    <button class="day-btn px-4 py-2 mx-1 my-1 rounded-full text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Tuesday">Tue</button>
-                    <button class="day-btn px-4 py-2 mx-1 my-1 rounded-full text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Wednesday">Wed</button>
-                    <button class="day-btn px-4 py-2 mx-1 my-1 rounded-full text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Thursday">Thu</button>
-                    <button class="day-btn px-4 py-2 mx-1 my-1 rounded-full text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Friday">Fri</button>
-                    <button class="day-btn px-4 py-2 mx-1 my-1 rounded-full text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Saturday">Sat</button>
-                    <button class="day-btn px-4 py-2 mx-1 my-1 rounded-full text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Sunday">Sun</button>
+                    <button class="day-btn px-3 py-2 mx-1 my-1 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Monday">Mon</button>
+                    <button class="day-btn px-3 py-2 mx-1 my-1 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Tuesday">Tue</button>
+                    <button class="day-btn px-3 py-2 mx-1 my-1 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Wednesday">Wed</button>
+                    <button class="day-btn px-3 py-2 mx-1 my-1 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Thursday">Thu</button>
+                    <button class="day-btn px-3 py-2 mx-1 my-1 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Friday">Fri</button>
+                    <button class="day-btn px-3 py-2 mx-1 my-1 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Saturday">Sat</button>
+                    <button class="day-btn px-3 py-2 mx-1 my-1 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Sunday">Sun</button>
                 </div>
             </div>
 
@@ -125,11 +145,11 @@
             <div class="flex flex-col items-center p-4 my-6 bg-gray-800 rounded-lg shadow-inner">
                 <h3 class="text-xl font-semibold mb-2 text-white">Stopwatch</h3>
                 <div id="stopwatch-display" class="text-4xl md:text-5xl font-mono text-yellow-400 my-4">00:00:00</div>
-                <div id="time-stamps" class="text-sm font-mono text-gray-400">
+                <div id="time-stamps" class="text-sm font-mono text-gray-400 text-center">
                     <span id="start-time-display"></span>
                     <span id="end-time-display"></span>
                 </div>
-                <div class="flex space-x-4 mt-4">
+                <div class="flex flex-wrap justify-center space-x-2 sm:space-x-4 mt-4">
                     <button id="start-btn" class="stopwatch-button px-4 py-2 rounded-full text-sm font-medium bg-green-500 text-white hover:bg-green-600">Start</button>
                     <button id="stop-btn" class="stopwatch-button px-4 py-2 rounded-full text-sm font-medium bg-red-500 text-white hover:bg-red-600">Stop</button>
                     <button id="reset-btn" class="stopwatch-button px-4 py-2 rounded-full text-sm font-medium bg-blue-500 text-white hover:bg-blue-600">Reset</button>
@@ -151,23 +171,23 @@
                 </p>
             </div>
             
-            <div id="edit-buttons" class="mt-8 flex justify-end space-x-4">
-                <button id="share-btn" class="px-4 py-2 rounded-full text-sm font-medium bg-blue-500 text-white hover:bg-blue-600 transition-colors duration-200">
+            <div id="edit-buttons" class="mt-8 flex flex-wrap justify-center md:justify-end gap-2 md:gap-4">
+                <button id="share-btn" class="w-full sm:w-auto px-4 py-2 rounded-full text-sm font-medium bg-blue-500 text-white hover:bg-blue-600 transition-colors duration-200">
                     Share Routine
                 </button>
-                 <button id="add-category-btn" class="px-4 py-2 rounded-full text-sm font-medium bg-gray-600 text-white hover:bg-gray-700 transition-colors duration-200" style="display: none;">
+                 <button id="add-category-btn" class="w-full sm:w-auto px-4 py-2 rounded-full text-sm font-medium bg-gray-600 text-white hover:bg-gray-700 transition-colors duration-200" style="display: none;">
                     Add Muscle Group
                 </button>
-                 <button id="clear-all-routines-btn" class="px-4 py-2 rounded-full text-sm font-medium bg-purple-500 text-white hover:bg-purple-600 transition-colors duration-200">
+                 <button id="clear-all-routines-btn" class="w-full sm:w-auto px-4 py-2 rounded-full text-sm font-medium bg-purple-500 text-white hover:bg-purple-600 transition-colors duration-200">
                     Forge Your Path
                 </button>
-                <button id="clear-storage-btn" class="px-4 py-2 rounded-full text-sm font-medium bg-red-500 text-white hover:bg-red-600 transition-colors duration-200">
+                <button id="clear-storage-btn" class="w-full sm:w-auto px-4 py-2 rounded-full text-sm font-medium bg-red-500 text-white hover:bg-red-600 transition-colors duration-200">
                     Reset To Default
                 </button>
-                <button id="edit-btn" class="px-4 py-2 rounded-full text-sm font-medium bg-yellow-400 text-black hover:bg-yellow-500 transition-colors duration-200">
+                <button id="edit-btn" class="w-full sm:w-auto px-4 py-2 rounded-full text-sm font-medium bg-yellow-400 text-black hover:bg-yellow-500 transition-colors duration-200">
                     Edit Routine
                 </button>
-                <button id="save-btn" class="px-4 py-2 rounded-full text-sm font-medium bg-green-500 text-white hover:bg-green-600 transition-colors duration-200" style="display: none;">
+                <button id="save-btn" class="w-full sm:w-auto px-4 py-2 rounded-full text-sm font-medium bg-green-500 text-white hover:bg-green-600 transition-colors duration-200" style="display: none;">
                     Save Routine
                 </button>
             </div>
@@ -359,12 +379,12 @@
                             <input type="text" value="${section.category}" class="category-name form-control text-lg font-semibold mb-2 text-yellow-400 w-full rounded-md border-gray-600 focus:border-yellow-400 focus:ring-yellow-400 bg-gray-800 text-white focus:bg-gray-800" placeholder="Category Name">
                             <div class="space-y-2 exercises-container">
                                 ${section.exercises.map((exercise, exerciseIndex) => `
-                                    <div class="flex flex-col mb-4 relative exercise-item">
-                                        <div class="flex items-center space-x-2">
-                                            <div class="flex-grow">
-                                                <label for="exercise-name-${categoryIndex}-${exerciseIndex}" class="text-xs text-gray-400 block mb-1">Exercise Name</label>
-                                                <input id="exercise-name-${categoryIndex}-${exerciseIndex}" type="text" value="${exercise.name}" class="exercise-name form-control w-full rounded-md border-gray-600 focus:border-yellow-400 focus:ring-yellow-400 bg-gray-800 text-white focus:bg-gray-800" placeholder="Exercise Name">
-                                            </div>
+                                    <div class="flex flex-col sm:flex-row mb-4 relative exercise-item items-center sm:items-start">
+                                        <div class="flex-grow w-full">
+                                            <label for="exercise-name-${categoryIndex}-${exerciseIndex}" class="text-xs text-gray-400 block mb-1">Exercise Name</label>
+                                            <input id="exercise-name-${categoryIndex}-${exerciseIndex}" type="text" value="${exercise.name}" class="exercise-name form-control w-full rounded-md border-gray-600 focus:border-yellow-400 focus:ring-yellow-400 bg-gray-800 text-white focus:bg-gray-800" placeholder="Exercise Name">
+                                        </div>
+                                        <div class="flex mt-2 sm:mt-0 sm:ml-2 space-x-2 w-full sm:w-auto">
                                             <div>
                                                 <label for="exercise-sets-${categoryIndex}-${exerciseIndex}" class="text-xs text-gray-400 block mb-1">Sets</label>
                                                 <input id="exercise-sets-${categoryIndex}-${exerciseIndex}" type="number" value="${exercise.sets !== null ? exercise.sets : ''}" class="exercise-sets w-16 text-center form-control rounded-md border-gray-600 focus:border-yellow-400 focus:ring-yellow-400 bg-gray-800 text-white focus:bg-gray-800" placeholder="Sets">
@@ -374,28 +394,26 @@
                                                 <input id="exercise-reps-${categoryIndex}-${exerciseIndex}" type="number" value="${exercise.reps !== null ? exercise.reps : ''}" class="exercise-reps w-16 text-center form-control rounded-md border-gray-600 focus:border-yellow-400 focus:ring-yellow-400 bg-gray-800 text-white focus:bg-gray-800" placeholder="Reps">
                                             </div>
                                         </div>
-                                        <div class="mt-2 flex items-center space-x-2">
-                                            <div class="flex-grow">
-                                                <label for="exercise-url-${categoryIndex}-${exerciseIndex}" class="text-xs text-gray-400 block mb-1">YouTube URL</label>
-                                                <input id="exercise-url-${categoryIndex}-${exerciseIndex}" type="text" value="${exercise.url || ''}" class="exercise-url form-control w-full rounded-md border-gray-600 focus:border-yellow-400 focus:ring-yellow-400 bg-gray-800 text-white focus:bg-gray-800" placeholder="YouTube URL">
-                                            </div>
-                                            <div class="flex flex-col items-center">
-                                                <button class="up-arrow-exercise text-gray-400 hover:text-yellow-400 transition-colors" data-category-index="${categoryIndex}" data-exercise-index="${exerciseIndex}">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-                                                    </svg>
-                                                </button>
-                                                <button class="delete-exercise-btn text-red-500 hover:text-red-400 transition-colors" data-category-index="${categoryIndex}" data-exercise-index="${exerciseIndex}">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                                        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm6 0a1 1 0 112 0v6a1 1 0 11-2 0V8z" clip-rule="evenodd" />
-                                                    </svg>
-                                                </button>
-                                                <button class="down-arrow-exercise text-gray-400 hover:text-yellow-400 transition-colors" data-category-index="${categoryIndex}" data-exercise-index="${exerciseIndex}">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                                    </svg>
-                                                </button>
-                                            </div>
+                                        <div class="flex-grow w-full mt-2 sm:mt-0 sm:ml-2">
+                                            <label for="exercise-url-${categoryIndex}-${exerciseIndex}" class="text-xs text-gray-400 block mb-1">YouTube URL</label>
+                                            <input id="exercise-url-${categoryIndex}-${exerciseIndex}" type="text" value="${exercise.url || ''}" class="exercise-url form-control w-full rounded-md border-gray-600 focus:border-yellow-400 focus:ring-yellow-400 bg-gray-800 text-white focus:bg-gray-800" placeholder="YouTube URL">
+                                        </div>
+                                        <div class="flex flex-col items-center mt-2 sm:mt-0 sm:ml-2">
+                                            <button class="up-arrow-exercise text-gray-400 hover:text-yellow-400 transition-colors" data-category-index="${categoryIndex}" data-exercise-index="${exerciseIndex}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                                                </svg>
+                                            </button>
+                                            <button class="delete-exercise-btn text-red-500 hover:text-red-400 transition-colors" data-category-index="${categoryIndex}" data-exercise-index="${exerciseIndex}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm6 0a1 1 0 112 0v6a1 1 0 11-2 0V8z" clip-rule="evenodd" />
+                                                </svg>
+                                            </button>
+                                            <button class="down-arrow-exercise text-gray-400 hover:text-yellow-400 transition-colors" data-category-index="${categoryIndex}" data-exercise-index="${exerciseIndex}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                                </svg>
+                                            </button>
                                         </div>
                                     </div>
                                 `).join('')}
@@ -735,8 +753,8 @@
                     }
                 } else if (completedCheckbox && !isEditing) {
                     const categoryName = completedCheckbox.dataset.category;
-                    const exerciseIndex = completedCheckbox.dataset.exerciseIndex;
                     const routineSection = routines[currentDay].routine.find(sec => sec.category === categoryName);
+                    const exerciseIndex = completedCheckbox.dataset.exerciseIndex;
                     if (routineSection) {
                          routineSection.exercises[exerciseIndex].completed = completedCheckbox.checked;
                          localStorage.setItem('dailyRoutines', JSON.stringify(routines));
