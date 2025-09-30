@@ -3,31 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Daily Grind </title>
-
-    <!--
-    SEO and Meta Tags
-    These tags help search engines understand your content.
-    -->
-    <meta name="description" content="Cyber Alliance India presents The Daily Grind - Your Ultimate Workout Companion. Track your routines, stay motivated, and achieve your fitness goals with ease.">
-    <meta name="keywords" content="made with gemini, ai, cyber alliance india, workout, tracker, fitness, routine, exercise, health, daily grind, gym, training, muscle, strength, cardio">
-    <link rel="canonical" href="https://links.cyberalliance.in/wwr.html">
-
-    <!--
-    Open Graph (OG) Tags
-    These tags control how your page looks when shared on social media like Facebook, Twitter, and LinkedIn.
-    -->
-    <meta property="og:title" content="The Daily Grind - Your Ultimate Workout Companion">
-    <meta property="og:description" content="Track your routines with ease, all data stored locally on device.">
-    <meta property="og:image" content="/img/gym">
-    <meta property="og:url" content="img/gym.webp">
-    <meta property="og:type" content="website">
-
-    <!-- Bootstrap CSS -->
+    <title>My Daily Routine</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- jsPDF for PDF generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         body {
@@ -107,15 +85,16 @@
         .stopwatch-button:hover {
             transform: scale(1.05);
         }
-        .completed-checkbox:checked + span {
-            text-decoration: line-through;
-            color: #6b7280;
+        /* REMOVED: .completed-checkbox:checked + div .completed-text { ... } */
+        /* Style for the new indented set list - Ensuring no bullet point */
+        .sets-list li, .sets-list div {
+            padding-left: 0.5rem; /* Small indent */
+            list-style: none; /* Explicitly remove list style for all children */
         }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
-    <!-- Header Section -->
     <header class="header text-white py-6 shadow-md rounded-b-xl">
         <div class="container mx-auto px-4 text-center">
             <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">The Daily Grind</h1>
@@ -123,33 +102,29 @@
         </div>
     </header>
 
-    <!-- Main Content Section -->
     <main class="container mx-auto mt-8 flex-grow px-4">
         <div class="card-custom p-6 md:p-8">
-            <!-- Day Selection and Title Section -->
             <div class="flex flex-col md:flex-row md:justify-between items-center mb-6">
-                <h2 id="day-title" class="text-2xl md:text-3xl font-bold text-yellow-400 text-center md:text-left"></h2>
+                <h2 id="day-title" class="text-2xl md:text-3xl font-bold text-yellow-400"></h2>
                 <div class="mt-4 md:mt-0 flex flex-wrap justify-center">
-                    <!-- Day selection buttons -->
-                    <button class="day-btn px-3 py-2 mx-1 my-1 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Monday">Mon</button>
-                    <button class="day-btn px-3 py-2 mx-1 my-1 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Tuesday">Tue</button>
-                    <button class="day-btn px-3 py-2 mx-1 my-1 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Wednesday">Wed</button>
-                    <button class="day-btn px-3 py-2 mx-1 my-1 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Thursday">Thu</button>
-                    <button class="day-btn px-3 py-2 mx-1 my-1 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Friday">Fri</button>
-                    <button class="day-btn px-3 py-2 mx-1 my-1 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Saturday">Sat</button>
-                    <button class="day-btn px-3 py-2 mx-1 my-1 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Sunday">Sun</button>
+                    <button class="day-btn px-4 py-2 mx-1 my-1 rounded-full text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Monday">Mon</button>
+                    <button class="day-btn px-4 py-2 mx-1 my-1 rounded-full text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Tuesday">Tue</button>
+                    <button class="day-btn px-4 py-2 mx-1 my-1 rounded-full text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Wednesday">Wed</button>
+                    <button class="day-btn px-4 py-2 mx-1 my-1 rounded-full text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Thursday">Thu</button>
+                    <button class="day-btn px-4 py-2 mx-1 my-1 rounded-full text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Friday">Fri</button>
+                    <button class="day-btn px-4 py-2 mx-1 my-1 rounded-full text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Saturday">Sat</button>
+                    <button class="day-btn px-4 py-2 mx-1 my-1 rounded-full text-sm font-medium transition-all duration-200 bg-gray-700 hover:bg-gray-600 text-gray-300" data-day="Sunday">Sun</button>
                 </div>
             </div>
 
-            <!-- Stopwatch Widget -->
             <div class="flex flex-col items-center p-4 my-6 bg-gray-800 rounded-lg shadow-inner">
                 <h3 class="text-xl font-semibold mb-2 text-white">Stopwatch</h3>
                 <div id="stopwatch-display" class="text-4xl md:text-5xl font-mono text-yellow-400 my-4">00:00:00</div>
-                <div id="time-stamps" class="text-sm font-mono text-gray-400 text-center">
+                <div id="time-stamps" class="text-sm font-mono text-gray-400">
                     <span id="start-time-display"></span>
                     <span id="end-time-display"></span>
                 </div>
-                <div class="flex flex-wrap justify-center space-x-2 sm:space-x-4 mt-4">
+                <div class="flex space-x-4 mt-4">
                     <button id="start-btn" class="stopwatch-button px-4 py-2 rounded-full text-sm font-medium bg-green-500 text-white hover:bg-green-600">Start</button>
                     <button id="stop-btn" class="stopwatch-button px-4 py-2 rounded-full text-sm font-medium bg-red-500 text-white hover:bg-red-600">Stop</button>
                     <button id="reset-btn" class="stopwatch-button px-4 py-2 rounded-full text-sm font-medium bg-blue-500 text-white hover:bg-blue-600">Reset</button>
@@ -157,8 +132,7 @@
             </div>
             
             <div id="routine-display" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Routine content will be dynamically inserted here -->
-            </div>
+                </div>
 
             <div id="notes-widget" class="mt-8">
                 <h3 class="text-lg font-semibold mb-2 text-yellow-400">Notes</h3>
@@ -171,30 +145,37 @@
                 </p>
             </div>
             
-            <div id="edit-buttons" class="mt-8 flex flex-wrap justify-center md:justify-end gap-2 md:gap-4">
-                <button id="share-btn" class="w-full sm:w-auto px-4 py-2 rounded-full text-sm font-medium bg-blue-500 text-white hover:bg-blue-600 transition-colors duration-200">
+            <div id="edit-buttons" class="mt-8 flex flex-wrap justify-end space-x-2 space-y-2 md:space-y-0">
+                <button id="download-config-btn" class="px-4 py-2 rounded-full text-sm font-medium bg-indigo-500 text-white hover:bg-indigo-600 transition-colors duration-200">
+                    Download Config
+                </button>
+                <label for="upload-config-input" class="px-4 py-2 rounded-full text-sm font-medium bg-indigo-500 text-white hover:bg-indigo-600 transition-colors duration-200 cursor-pointer flex items-center justify-center">
+                    Upload Config
+                </label>
+                <input type="file" id="upload-config-input" accept=".json" style="display: none;">
+
+                <button id="share-btn" class="px-4 py-2 rounded-full text-sm font-medium bg-blue-500 text-white hover:bg-blue-600 transition-colors duration-200">
                     Share Routine
                 </button>
-                 <button id="add-category-btn" class="w-full sm:w-auto px-4 py-2 rounded-full text-sm font-medium bg-gray-600 text-white hover:bg-gray-700 transition-colors duration-200" style="display: none;">
+                 <button id="add-category-btn" class="px-4 py-2 rounded-full text-sm font-medium bg-gray-600 text-white hover:bg-gray-700 transition-colors duration-200" style="display: none;">
                     Add Muscle Group
                 </button>
-                 <button id="clear-all-routines-btn" class="w-full sm:w-auto px-4 py-2 rounded-full text-sm font-medium bg-purple-500 text-white hover:bg-purple-600 transition-colors duration-200">
+                 <button id="clear-all-routines-btn" class="px-4 py-2 rounded-full text-sm font-medium bg-purple-500 text-white hover:bg-purple-600 transition-colors duration-200">
                     Forge Your Path
                 </button>
-                <button id="clear-storage-btn" class="w-full sm:w-auto px-4 py-2 rounded-full text-sm font-medium bg-red-500 text-white hover:bg-red-600 transition-colors duration-200">
+                <button id="clear-storage-btn" class="px-4 py-2 rounded-full text-sm font-medium bg-red-500 text-white hover:bg-red-600 transition-colors duration-200">
                     Reset To Default
                 </button>
-                <button id="edit-btn" class="w-full sm:w-auto px-4 py-2 rounded-full text-sm font-medium bg-yellow-400 text-black hover:bg-yellow-500 transition-colors duration-200">
+                <button id="edit-btn" class="px-4 py-2 rounded-full text-sm font-medium bg-yellow-400 text-black hover:bg-yellow-500 transition-colors duration-200">
                     Edit Routine
                 </button>
-                <button id="save-btn" class="w-full sm:w-auto px-4 py-2 rounded-full text-sm font-medium bg-green-500 text-white hover:bg-green-600 transition-colors duration-200" style="display: none;">
+                <button id="save-btn" class="px-4 py-2 rounded-full text-sm font-medium bg-green-500 text-white hover:bg-green-600 transition-colors duration-200" style="display: none;">
                     Save Routine
                 </button>
             </div>
         </div>
     </main>
 
-    <!-- Scrolling Banner Section -->
     <div class="scrolling-banner-container mt-8">
         <div class="scrolling-banner">
             <span class="font-bold text-yellow-400">💪 MORE INSPIRATION:</span>
@@ -222,68 +203,69 @@
         </div>
     </div>
 
-    <!-- Footer Section -->
     <footer class="text-center py-4 text-gray-500 mt-8">
         <p>Big Brrr's at <a href="https://cyberalliance.in" target="_blank" class="text-yellow-400 hover:text-yellow-300 font-medium">Cyber Alliance India</a> made this using Gemini to Help you grow. Your routine is saved right on your device, so you can train offline.</p>
     </footer>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            let initialRoutines = {
+            // UPDATED: Data model uses 'logs' array for sets, where each log has 'weight' and 'reps'
+            // NOTE: All default set/rep data (logs: [{ weight: '...', reps: '...' }]) has been REMOVED.
+            // REMOVED 'completed: false' from initialRoutines exercises.
+            const initialRoutines = {
                 'Monday': {
                     notes: '',
                     routine: [
-                        { category: 'Back', exercises: [{ name: 'Lat Pull Down (Wide Grip)', sets: 3, reps: 10, completed: false }, { name: 'Lat Pull Down (Close Grip)', sets: 3, reps: 10, completed: false }, { name: 'Chest Supported Rows', sets: 3, reps: 10, completed: false }] },
-                        { category: 'Traps', exercises: [{ name: 'Reverse Pec Deck', sets: 3, reps: 12, completed: false }, { name: 'Scapular Pull up', sets: 3, reps: 15, completed: false }] },
-                        { category: 'Arms (Tri)', exercises: [{ name: 'Overhead Cable Triceps Extensions', sets: 3, reps: 12, completed: false }, { name: 'Triceps Pressdowns', sets: 3, reps: 15, completed: false }, { name: 'Close-Grip Bench Press', sets: 3, reps: 10, completed: false }] },
-                        { category: 'Cardio', exercises: [{ name: '2 Mins Cycle', sets: 1, reps: null, completed: false }, { name: '3 Mins Running', sets: 1, reps: null, completed: false }, { name: 'Running (Post Gym)', sets: 1, reps: null, completed: false }] }
+                        { category: 'Back', exercises: [{ name: 'Lat Pull Down (Wide Grip)', logs: [], url: '' }, { name: 'Lat Pull Down (Close Grip)', logs: [], url: '' }, { name: 'Chest Supported Rows', logs: [], url: '' }] },
+                        { category: 'Traps', exercises: [{ name: 'Reverse Pec Deck', logs: [], url: '' }, { name: 'Scapular Pull up', logs: [], url: '' }] },
+                        { category: 'Arms (Tri)', exercises: [{ name: 'Overhead Cable Triceps Extensions', logs: [], url: '' }, { name: 'Triceps Pressdowns', logs: [], url: '' }, { name: 'Close-Grip Bench Press', logs: [], url: '' }] },
+                        { category: 'Cardio', exercises: [{ name: '2 Mins Cycle', logs: [], url: '' }, { name: '3 Mins Running', logs: [], url: '' }, { name: 'Running (Post Gym)', logs: [], url: '' }] }
                     ]
                 },
                 'Tuesday': {
                     notes: '',
                     routine: [
-                        { category: 'Chest', exercises: [{ name: 'Dumbbell Press (Incline)', sets: 3, reps: 10, completed: false }, { name: 'Barbell Bench Press', sets: 3, reps: 8, completed: false }] },
-                        { category: 'Shoulders', exercises: [{ name: 'Machine Shoulder Press', sets: 3, reps: 12, completed: false }, { name: 'Cable Lateral Raise', sets: 3, reps: 15, completed: false }, { name: 'Reverse Pec Deck Machine', sets: 3, reps: 12, completed: false }] },
-                        { category: 'Pushups', exercises: [{ name: 'Pushups', sets: 3, reps: 20, completed: false }] },
-                        { category: 'Cardio', exercises: [{ name: '2 Mins Cycle', sets: 1, reps: null, completed: false }, { name: '3 Mins Running', sets: 1, reps: null, completed: false }, { name: 'Running (Post Gym)', sets: 1, reps: null, completed: false }] }
+                        { category: 'Chest', exercises: [{ name: 'Dumbbell Press (Incline)', logs: [], url: '' }, { name: 'Barbell Bench Press', logs: [], url: '' }] },
+                        { category: 'Shoulders', exercises: [{ name: 'Machine Shoulder Press', logs: [], url: '' }, { name: 'Cable Lateral Raise', logs: [], url: '' }, { name: 'Reverse Pec Deck Machine', logs: [], url: '' }] },
+                        { category: 'Pushups', exercises: [{ name: 'Pushups', logs: [], url: '' }] },
+                        { category: 'Cardio', exercises: [{ name: '2 Mins Cycle', logs: [], url: '' }, { name: '3 Mins Running', logs: [], url: '' }, { name: 'Running (Post Gym)', logs: [], url: '' }] }
                     ]
                 },
                 'Wednesday': {
                     notes: '',
                     routine: [
-                        { category: 'Legs', exercises: [{ name: 'Hack Squat', sets: 3, reps: 10, completed: false }, { name: 'Leg Extension', sets: 3, reps: 12, completed: false }, { name: 'Romanian Deadlift (RDL)', sets: 3, reps: 10, completed: false }, { name: 'Walking Lunge', sets: 3, reps: 12, completed: false }, { name: 'Standing Calf Raises', sets: 3, reps: 15, completed: false }] },
-                        { category: 'Core', exercises: [{ name: 'Weighted Cable Crunches', sets: 3, reps: 15, completed: false }] },
-                        { category: 'Forearms', exercises: [{ name: 'Dumbbell Wrist Curls (Supinated)', sets: 3, reps: 15, completed: false }, { name: 'Dumbbell Wrist Curls (Pronated)', sets: 3, reps: 15, completed: false }, { name: 'Plate Pinches', sets: 3, reps: 60, completed: false }] },
-                        { category: 'Cardio', exercises: [{ name: '5 Mins Cycle', sets: 1, reps: null, completed: false }, { name: '10 Mins Running', sets: 1, reps: null, completed: false }] }
+                        { category: 'Legs', exercises: [{ name: 'Hack Squat', logs: [], url: '' }, { name: 'Leg Extension', logs: [], url: '' }, { name: 'Romanian Deadlift (RDL)', logs: [], url: '' }, { name: 'Walking Lunge', logs: [], url: '' }, { name: 'Standing Calf Raises', logs: [], url: '' }] },
+                        { category: 'Core', exercises: [{ name: 'Weighted Cable Crunches', logs: [], url: '' }] },
+                        { category: 'Forearms', exercises: [{ name: 'Dumbbell Wrist Curls (Supinated)', logs: [], url: '' }, { name: 'Dumbbell Wrist Curls (Pronated)', logs: [], url: '' }, { name: 'Plate Pinches', logs: [], url: '' }] },
+                        { category: 'Cardio', exercises: [{ name: '5 Mins Cycle', logs: [], url: '' }, { name: '10 Mins Running', logs: [], url: '' }] }
                     ]
                 },
                 'Thursday': {
                     notes: '',
                     routine: [
-                        { category: 'Back', exercises: [{ name: 'Seated Row (Wide Grip)', sets: 3, reps: 10, completed: false }, { name: 'Seated Row (Close Grip)', sets: 3, reps: 10, completed: false }, { name: 'Half-Kneeling One-Arm Pulldown', sets: 3, reps: 12, completed: false }] },
-                        { category: 'Traps', exercises: [{ name: 'Face Pulls', sets: 3, reps: 15, completed: false }, { name: 'Scapular Pull up', sets: 3, reps: 15, completed: false }] },
-                        { category: 'Arms (Bi)', exercises: [{ name: 'Incline Dumbbell Curl', sets: 3, reps: 12, completed: false }, { name: 'Preacher Curl (Hammer)', sets: 3, reps: 10, completed: false }, { name: 'Bayesian Cable Curl', sets: 3, reps: 12, completed: false }] },
-                        { category: 'Cardio', exercises: [{ name: '3 Mins Cycle', sets: 1, reps: null, completed: false }, { name: '7 Mins Running', sets: 1, reps: null, completed: false }, { name: 'Running (Post Gym)', sets: 1, reps: null, completed: false }] }
+                        { category: 'Back', exercises: [{ name: 'Seated Row (Wide Grip)', logs: [], url: '' }, { name: 'Seated Row (Close Grip)', logs: [], url: '' }, { name: 'Half-Kneeling One-Arm Pulldown', logs: [], url: '' }] },
+                        { category: 'Traps', exercises: [{ name: 'Face Pulls', logs: [], url: '' }, { name: 'Scapular Pull up', logs: [], url: '' }] },
+                        { category: 'Arms (Bi)', exercises: [{ name: 'Incline Dumbbell Curl', logs: [], url: '' }, { name: 'Preacher Curl (Hammer)', logs: [], url: '' }, { name: 'Bayesian Cable Curl', logs: [], url: '' }] },
+                        { category: 'Cardio', exercises: [{ name: '3 Mins Cycle', logs: [], url: '' }, { name: '7 Mins Running', logs: [], url: '' }, { name: 'Running (Post Gym)', logs: [], url: '' }] }
                     ]
                 },
                 'Friday': {
                     notes: '',
                     routine: [
-                        { category: 'Chest', exercises: [{ name: 'Barbell Bench Press (Incline)', sets: 3, reps: 8, completed: false }, { name: 'Pec Deck Machine', sets: 3, reps: 12, completed: false }] },
-                        { category: 'Shoulders', exercises: [{ name: 'Barbell Overhead Press', sets: 3, reps: 10, completed: false }, { name: 'Lean-In Dumbbell Lateral Raise', sets: 3, reps: 15, completed: false }, { name: 'Reverse Cable Crossover', sets: 3, reps: 12, completed: false }] },
-                        { category: 'Pushups', url: 'https://www.youtube.com/results?search_query=Pushups', exercises: [{ name: 'Pushups', sets: 3, reps: 20, completed: false }] },
-                        { category: 'Cardio', exercises: [{ name: '3 Mins Cycle', sets: 1, reps: null, completed: false }, { name: '7 Mins Running', sets: 1, reps: null, completed: false }, { name: 'Running (Post Gym)', sets: 1, reps: null, completed: false }] }
+                        { category: 'Chest', exercises: [{ name: 'Barbell Bench Press (Incline)', logs: [], url: '' }, { name: 'Pec Deck Machine', logs: [], url: '' }] },
+                        { category: 'Shoulders', exercises: [{ name: 'Barbell Overhead Press', logs: [], url: '' }, { name: 'Lean-In Dumbbell Lateral Raise', logs: [], url: '' }, { name: 'Reverse Cable Crossover', logs: [], url: '' }] },
+                        { category: 'Pushups', url: 'https://www.youtube.com/results?search_query=Pushups', exercises: [{ name: 'Pushups', logs: [], url: '' }] },
+                        { category: 'Cardio', exercises: [{ name: '3 Mins Cycle', logs: [], url: '' }, { name: '7 Mins Running', logs: [], url: '' }, { name: 'Running (Post Gym)', logs: [], url: '' }] }
                     ]
                 },
                 'Saturday': {
                     notes: '',
                     routine: [
-                        { category: 'Legs', exercises: [{ name: 'Bulgarian Split Squat', sets: 3, reps: 12, completed: false }, { name: 'Barbell Back Squat', sets: 3, reps: 10, completed: false }, { name: 'Seated Hamstring Curl', sets: 3, reps: 12, completed: false }, { name: 'Walking Lunge', sets: 3, reps: 15, completed: false }, { name: 'Standing Calf Raises', sets: 3, reps: 20, completed: false }] },
-                        { category: 'Core', exercises: [{ name: 'Weighted Cable Crunches', sets: 3, reps: 15, completed: false }, { name: 'Hanging Leg Raises', sets: 3, reps: 15, completed: false }] },
-                        { category: 'Forearms', exercises: [{ name: 'Dumbbell Wrist Curls (Supinated)', sets: 3, reps: 15, completed: false }, { name: 'Dumbbell Wrist Curls (Pronated)', sets: 3, reps: 15, completed: false }, { name: 'Plate Pinches', sets: 3, reps: 60, completed: false }] },
-                        { category: 'Cardio', exercises: [{ name: '5 Mins Cycle', sets: 1, reps: null, completed: false }, { name: '10 Mins Running', sets: 1, reps: null, completed: false }] }
+                        { category: 'Legs', exercises: [{ name: 'Bulgarian Split Squat', logs: [], url: '' }, { name: 'Barbell Back Squat', logs: [], url: '' }, { name: 'Seated Hamstring Curl', logs: [], url: '' }, { name: 'Walking Lunge', logs: [], url: '' }, { name: 'Standing Calf Raises', logs: [], url: '' }] },
+                        { category: 'Core', exercises: [{ name: 'Weighted Cable Crunches', logs: [], url: '' }, { name: 'Hanging Leg Raises', logs: [], url: '' }] },
+                        { category: 'Forearms', exercises: [{ name: 'Dumbbell Wrist Curls (Supinated)', logs: [], url: '' }, { name: 'Dumbbell Wrist Curls (Pronated)', logs: [], url: '' }, { name: 'Plate Pinches', logs: [], url: '' }] },
+                        { category: 'Cardio', exercises: [{ name: '5 Mins Cycle', logs: [], url: '' }, { name: '10 Mins Running', logs: [], url: '' }] }
                     ]
                 },
                 'Sunday': {
@@ -294,6 +276,7 @@
 
             let routines = {};
 
+            // Routine & State Elements
             const dayTitleEl = document.getElementById('day-title');
             const routineDisplayEl = document.getElementById('routine-display');
             const restDayMessageEl = document.getElementById('rest-day-message');
@@ -306,6 +289,10 @@
             const addCategoryBtn = document.getElementById('add-category-btn');
             const shareBtn = document.getElementById('share-btn');
             
+            // New Config Elements
+            const downloadConfigBtn = document.getElementById('download-config-btn');
+            const uploadConfigInput = document.getElementById('upload-config-input');
+
             // Stopwatch elements
             const stopwatchDisplay = document.getElementById('stopwatch-display');
             const startBtn = document.getElementById('start-btn');
@@ -323,11 +310,47 @@
             let isEditing = false;
             let currentDay = '';
 
+            // NEW: Function to get all unique exercise names from the initial routines
+            const getUniqueExerciseNames = (routines) => {
+                const names = new Set();
+                Object.values(routines).forEach(dayRoutine => {
+                    dayRoutine.routine.forEach(section => {
+                        section.exercises.forEach(exercise => {
+                            if (exercise.name) {
+                                names.add(exercise.name.trim());
+                            }
+                        });
+                    });
+                });
+                return Array.from(names).sort();
+            };
+            
+            // NEW: Generate the datalist HTML from unique names
+            const uniqueExerciseNames = getUniqueExerciseNames(initialRoutines);
+            const exerciseDatalistHtml = `<datalist id="exercise-suggestions">${uniqueExerciseNames.map(name => `<option value="${name}">`).join('')}</datalist>`;
+            
+            // Append the datalist to the body once for use in Edit Mode inputs
+            document.body.insertAdjacentHTML('beforeend', exerciseDatalistHtml);
+
+
             // Load routines from localStorage or use defaults
             const loadRoutines = () => {
                 const savedRoutines = localStorage.getItem('dailyRoutines');
                 if (savedRoutines) {
-                    routines = JSON.parse(savedRoutines);
+                    try {
+                         routines = JSON.parse(savedRoutines);
+                         // NEW: Strip the legacy 'completed' status from all routines on load
+                         Object.values(routines).forEach(dayRoutine => {
+                            dayRoutine.routine.forEach(section => {
+                                section.exercises.forEach(exercise => {
+                                    delete exercise.completed; // Remove the property
+                                });
+                            });
+                        });
+                    } catch (e) {
+                         console.error("Failed to parse routines from localStorage. Resetting to default.");
+                         routines = JSON.parse(JSON.stringify(initialRoutines)); 
+                    }
                 } else {
                     // Deep copy initial routines to avoid modifying the original template
                     routines = JSON.parse(JSON.stringify(initialRoutines)); 
@@ -335,6 +358,63 @@
             };
 
             loadRoutines();
+
+            // --- FUNCTION: Captures current DOM inputs and updates the routines object in memory ---
+            const captureCurrentRoutineState = () => {
+                const tempRoutine = [];
+                const routineSections = routineDisplayEl.querySelectorAll('.card-custom');
+
+                if (!isEditing || routineSections.length === 0) return;
+
+                routineSections.forEach(section => {
+                    const category = section.querySelector('.category-name').value.trim();
+                    const exercises = [];
+                    const exerciseItems = section.querySelectorAll('.exercise-item');
+
+                    exerciseItems.forEach(item => {
+                        // Check for both .exercise-name and its input value
+                        const nameInput = item.querySelector('.exercise-name');
+                        const name = nameInput ? nameInput.value.trim() : '';
+                        
+                        let urlInput = item.querySelector('.exercise-url');
+                        let url = urlInput ? urlInput.value.trim() : '';
+                        
+                        const logs = [];
+                        
+                        // Read dynamic logs/sets
+                        const logContainers = item.querySelectorAll('.log-entry');
+                        logContainers.forEach(logContainer => {
+                            const weight = logContainer.querySelector('.log-weight').value.trim();
+                            const reps = logContainer.querySelector('.log-reps').value.trim();
+                            logs.push({ weight: weight, reps: reps });
+                        });
+
+                        // **LOGIC REMOVED**: No need to capture 'completed' status from the DOM or preserve it.
+                        
+                        if (name !== '' || logs.length > 0) {
+                            if (url === '') {
+                                url = `https://www.youtube.com/results?search_query=${encodeURIComponent(name)}`;
+                            }
+                            exercises.push({ 
+                                name: name, 
+                                url: url,
+                                logs: logs
+                                // Removed completed property
+                            });
+                        }
+                    });
+
+                    if (category !== '' || exercises.length > 0) {
+                        tempRoutine.push({ category, exercises });
+                    }
+                });
+                
+                if (routines[currentDay]) {
+                    routines[currentDay].routine = tempRoutine;
+                    routines[currentDay].notes = notesTextarea.value; 
+                }
+            };
+            // --- END FUNCTION ---
 
             const displayRoutine = (day, editing = false) => {
                 isEditing = editing;
@@ -356,13 +436,37 @@
                 const routineData = routines[day] || { notes: '', routine: [] };
                 const routine = routineData.routine;
 
-                // Notes textarea is always editable, independent of editing state
                 notesTextarea.value = routineData.notes;
                 
                 if (isEditing) {
+                    // ------------------
+                    // Render EDIT MODE (No change needed here for the exercise rows)
+                    // ------------------
                     routine.forEach((section, categoryIndex) => {
                         const sectionDiv = document.createElement('div');
                         sectionDiv.className = 'card-custom p-4 relative';
+                        
+                        // Function to generate the HTML for all logs/sets
+                        const generateLogsHtml = (logs, exerciseIndex) => {
+                            return logs.map((log, logIndex) => `
+                                <div class="flex items-center space-x-2 log-entry mt-2" data-log-index="${logIndex}">
+                                    <div class="w-1/2">
+                                        <label for="weight-${categoryIndex}-${exerciseIndex}-${logIndex}" class="text-xs text-gray-400 block mb-1">Weight</label>
+                                        <input id="weight-${categoryIndex}-${exerciseIndex}-${logIndex}" type="text" value="${log.weight || ''}" class="log-weight form-control w-full rounded-md border-gray-600 focus:border-yellow-400 focus:ring-yellow-400 bg-gray-800 text-white focus:bg-gray-800" placeholder="e.g. 100">
+                                    </div>
+                                    <div class="w-1/2">
+                                        <label for="reps-${categoryIndex}-${exerciseIndex}-${logIndex}" class="text-xs text-gray-400 block mb-1">Reps</label>
+                                        <input id="reps-${categoryIndex}-${exerciseIndex}-${logIndex}" type="text" value="${log.reps || ''}" class="log-reps form-control w-full rounded-md border-gray-600 focus:border-yellow-400 focus:ring-yellow-400 bg-gray-800 text-white focus:bg-gray-800" placeholder="e.g. 8 reps / AMRAP">
+                                    </div>
+                                    <button class="delete-set-btn text-red-500 hover:text-red-400 transition-colors" data-category-index="${categoryIndex}" data-exercise-index="${exerciseIndex}" data-log-index="${logIndex}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm6 0a1 1 0 112 0v6a1 1 0 11-2 0V8z" clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            `).join('');
+                        };
+
                         sectionDiv.innerHTML = `
                              <div class="absolute top-2 right-2 flex flex-col items-center">
                                  <button class="up-arrow-category text-gray-400 hover:text-yellow-400 transition-colors" data-index="${categoryIndex}">
@@ -379,42 +483,40 @@
                             <input type="text" value="${section.category}" class="category-name form-control text-lg font-semibold mb-2 text-yellow-400 w-full rounded-md border-gray-600 focus:border-yellow-400 focus:ring-yellow-400 bg-gray-800 text-white focus:bg-gray-800" placeholder="Category Name">
                             <div class="space-y-2 exercises-container">
                                 ${section.exercises.map((exercise, exerciseIndex) => `
-                                    <div class="flex flex-col sm:flex-row mb-4 relative exercise-item items-center sm:items-start">
-                                        <div class="flex-grow w-full">
-                                            <label for="exercise-name-${categoryIndex}-${exerciseIndex}" class="text-xs text-gray-400 block mb-1">Exercise Name</label>
-                                            <input id="exercise-name-${categoryIndex}-${exerciseIndex}" type="text" value="${exercise.name}" class="exercise-name form-control w-full rounded-md border-gray-600 focus:border-yellow-400 focus:ring-yellow-400 bg-gray-800 text-white focus:bg-gray-800" placeholder="Exercise Name">
-                                        </div>
-                                        <div class="flex mt-2 sm:mt-0 sm:ml-2 space-x-2 w-full sm:w-auto">
-                                            <div>
-                                                <label for="exercise-sets-${categoryIndex}-${exerciseIndex}" class="text-xs text-gray-400 block mb-1">Sets</label>
-                                                <input id="exercise-sets-${categoryIndex}-${exerciseIndex}" type="number" value="${exercise.sets !== null ? exercise.sets : ''}" class="exercise-sets w-16 text-center form-control rounded-md border-gray-600 focus:border-yellow-400 focus:ring-yellow-400 bg-gray-800 text-white focus:bg-gray-800" placeholder="Sets">
+                                    <div class="flex flex-col mb-4 relative exercise-item border-t border-gray-700 pt-3" data-exercise-index="${exerciseIndex}">
+                                        <div class="flex items-center space-x-2">
+                                            <div class="flex-grow">
+                                                <label for="exercise-name-${categoryIndex}-${exerciseIndex}" class="text-xs text-gray-400 block mb-1">Exercise Name</label>
+                                                <input id="exercise-name-${categoryIndex}-${exerciseIndex}" type="text" value="${exercise.name}" class="exercise-name form-control w-full rounded-md border-gray-600 focus:border-yellow-400 focus:ring-yellow-400 bg-gray-800 text-white focus:bg-gray-800" placeholder="Exercise Name" list="exercise-suggestions">
                                             </div>
-                                            <div>
-                                                <label for="exercise-reps-${categoryIndex}-${exerciseIndex}" class="text-xs text-gray-400 block mb-1">Reps</label>
-                                                <input id="exercise-reps-${categoryIndex}-${exerciseIndex}" type="number" value="${exercise.reps !== null ? exercise.reps : ''}" class="exercise-reps w-16 text-center form-control rounded-md border-gray-600 focus:border-yellow-400 focus:ring-yellow-400 bg-gray-800 text-white focus:bg-gray-800" placeholder="Reps">
+                                            <div class="flex-grow">
+                                                <label for="exercise-url-${categoryIndex}-${exerciseIndex}" class="text-xs text-gray-400 block mb-1">YouTube URL</label>
+                                                <input id="exercise-url-${categoryIndex}-${exerciseIndex}" type="text" value="${exercise.url || ''}" class="exercise-url form-control w-full rounded-md border-gray-600 focus:border-yellow-400 focus:ring-yellow-400 bg-gray-800 text-white focus:bg-gray-800" placeholder="YouTube URL">
+                                            </div>
+                                            <div class="flex flex-col items-center">
+                                                <button class="up-arrow-exercise text-gray-400 hover:text-yellow-400 transition-colors" data-category-index="${categoryIndex}" data-exercise-index="${exerciseIndex}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                                                    </svg>
+                                                </button>
+                                                <button class="delete-exercise-btn text-red-500 hover:text-red-400 transition-colors" data-category-index="${categoryIndex}" data-exercise-index="${exerciseIndex}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm6 0a1 1 0 112 0v6a1 1 0 11-2 0V8z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </button>
+                                                <button class="down-arrow-exercise text-gray-400 hover:text-yellow-400 transition-colors" data-category-index="${categoryIndex}" data-exercise-index="${exerciseIndex}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                                    </svg>
+                                                </button>
                                             </div>
                                         </div>
-                                        <div class="flex-grow w-full mt-2 sm:mt-0 sm:ml-2">
-                                            <label for="exercise-url-${categoryIndex}-${exerciseIndex}" class="text-xs text-gray-400 block mb-1">YouTube URL</label>
-                                            <input id="exercise-url-${categoryIndex}-${exerciseIndex}" type="text" value="${exercise.url || ''}" class="exercise-url form-control w-full rounded-md border-gray-600 focus:border-yellow-400 focus:ring-yellow-400 bg-gray-800 text-white focus:bg-gray-800" placeholder="YouTube URL">
+                                        
+                                        <div class="log-entries-container mt-3 space-y-2" data-category-index="${categoryIndex}" data-exercise-index="${exerciseIndex}">
+                                            ${generateLogsHtml(exercise.logs, exerciseIndex)}
                                         </div>
-                                        <div class="flex flex-col items-center mt-2 sm:mt-0 sm:ml-2">
-                                            <button class="up-arrow-exercise text-gray-400 hover:text-yellow-400 transition-colors" data-category-index="${categoryIndex}" data-exercise-index="${exerciseIndex}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-                                                </svg>
-                                            </button>
-                                            <button class="delete-exercise-btn text-red-500 hover:text-red-400 transition-colors" data-category-index="${categoryIndex}" data-exercise-index="${exerciseIndex}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm6 0a1 1 0 112 0v6a1 1 0 11-2 0V8z" clip-rule="evenodd" />
-                                                </svg>
-                                            </button>
-                                            <button class="down-arrow-exercise text-gray-400 hover:text-yellow-400 transition-colors" data-category-index="${categoryIndex}" data-exercise-index="${exerciseIndex}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                                </svg>
-                                            </button>
-                                        </div>
+
+                                        <button class="add-set-btn mt-2 px-3 py-1 text-xs bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors duration-200" data-category-index="${categoryIndex}" data-exercise-index="${exerciseIndex}">+ Add Set</button>
                                     </div>
                                 `).join('')}
                             </div>
@@ -430,29 +532,56 @@
                     saveBtn.style.display = 'block';
                     addCategoryBtn.style.display = 'block';
                 } else {
+                    // ------------------
+                    // Render VIEW MODE (UPDATED: Checkbox and completed logic removed)
+                    // ------------------
                     if (routine.length > 0) {
                         routine.forEach(section => {
                             const sectionDiv = document.createElement('div');
                             sectionDiv.className = 'card-custom p-4';
-                            const exercisesHtml = section.exercises.map((exercise, exerciseIndex) => {
+                            
+                            const exercisesHtml = section.exercises.map((exercise) => {
                                 const url = exercise.url && exercise.url.trim() !== '' 
                                     ? exercise.url 
                                     : `https://www.youtube.com/results?search_query=${encodeURIComponent(exercise.name)}`;
-                                const completedClass = exercise.completed ? 'completed-text' : '';
-                                const setsRepsHtml = exercise.sets && exercise.reps ? `<span class="text-sm font-semibold text-gray-500 ml-2">(${exercise.sets} Sets x ${exercise.reps} Reps)</span>` : '';
+                                
+                                // NEW: Generate HTML for the list of individual sets/logs
+                                const setsHtml = exercise.logs.map(log => {
+                                    if (log.weight || log.reps) {
+                                        // LOGIC: Add 'kg' if weight is a number
+                                        const weightValue = log.weight.trim();
+                                        let weightDisplay = weightValue;
+                                        if (weightValue && !isNaN(parseFloat(weightValue)) && isFinite(weightValue)) {
+                                            weightDisplay = `${weightValue}kg`;
+                                        }
+
+                                        // Format: 100kg x 12
+                                        const setDisplay = `${weightDisplay || ''}${weightDisplay && log.reps ? ' x ' : ''}${log.reps || ''}`.trim();
+                                        if (setDisplay) {
+                                            // CHANGED <li> to <div> to eliminate nested list issues and styled to remove bullet
+                                            return `<div class="ml-6 text-sm text-gray-500 font-mono">${setDisplay}</div>`;
+                                        }
+                                    }
+                                    return '';
+                                }).filter(Boolean).join('');
+                                
+                                // Main list item for the exercise name. Removed checkbox and completed logic/classes.
                                 return `
-                                <li class="my-1 text-gray-400 flex items-center">
-                                    <input type="checkbox" data-category="${section.category}" data-exercise-index="${exerciseIndex}" ${exercise.completed ? 'checked' : ''} class="completed-checkbox mr-2 w-4 h-4 text-yellow-400 bg-gray-700 rounded border-gray-600 focus:ring-yellow-400">
-                                    <span class="${completedClass}">
-                                        <a href="${url}" target="_blank" class="hover:text-yellow-400 transition-colors">${exercise.name}</a>
-                                        ${setsRepsHtml}
-                                    </span>
+                                <li class="my-2 text-gray-400 list-none"> 
+                                    <div class="flex items-start">
+                                        <div class="flex-grow">
+                                            <a href="${url}" target="_blank" class="text-base font-semibold hover:text-yellow-400 transition-colors">${exercise.name}</a>
+                                            <div class="list-none pt-1 space-y-0 sets-list">
+                                                ${setsHtml}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </li>`;
                             }).join('');
                             
                             sectionDiv.innerHTML = `
                                 <h3 class="text-lg font-semibold mb-2 text-yellow-400">${section.category}</h3>
-                                <ul class="list-disc list-inside">
+                                <ul class="list-none">
                                     ${exercisesHtml}
                                 </ul>
                             `;
@@ -473,51 +602,24 @@
             };
             
             const saveRoutine = () => {
-                const updatedRoutine = [];
-                const routineSections = routineDisplayEl.querySelectorAll('.card-custom');
-                routineSections.forEach(section => {
-                    const category = section.querySelector('.category-name').value.trim();
-                    const exercises = [];
-                    const exerciseItems = section.querySelectorAll('.exercise-item');
+                // Call the capture function to ensure all final data is in the routines object
+                captureCurrentRoutineState();
 
-                    exerciseItems.forEach(item => {
-                        const name = item.querySelector('.exercise-name').value.trim();
-                        const sets = item.querySelector('.exercise-sets').value.trim();
-                        const reps = item.querySelector('.exercise-reps').value.trim();
-                        let url = item.querySelector('.exercise-url').value.trim();
-                        
-                        if (name !== '') {
-                            if (url === '') {
-                                url = `https://www.youtube.com/results?search_query=${encodeURIComponent(name)}`;
-                            }
-                            exercises.push({ 
-                                name: name, 
-                                url: url,
-                                sets: sets !== '' ? parseInt(sets) : null,
-                                reps: reps !== '' ? parseInt(reps) : null,
-                                completed: false
-                            });
-                        }
-                    });
-
-                    if (category !== '' || exercises.length > 0) {
-                        updatedRoutine.push({ category, exercises });
-                    }
-                });
-
-                routines[currentDay] = {
-                    notes: notesTextarea.value,
-                    routine: updatedRoutine
-                };
+                // Save to localStorage and switch to View Mode
                 localStorage.setItem('dailyRoutines', JSON.stringify(routines));
                 displayRoutine(currentDay, false);
             };
 
+            // Helper function for reordering
             const swapElements = (arr, index1, index2) => {
                 [arr[index1], arr[index2]] = [arr[index2], arr[index1]];
             };
 
-            // Event listeners for day buttons
+            // ------------------------------------
+            // Event Listeners for Buttons/Actions
+            // ------------------------------------
+
+            // Day Selection
             dayButtons.forEach(button => {
                 button.addEventListener('click', (event) => {
                     const day = event.target.dataset.day;
@@ -525,33 +627,44 @@
                 });
             });
 
+            // Edit/Save Mode Toggle
             editBtn.addEventListener('click', () => {
                 displayRoutine(currentDay, true);
             });
 
             saveBtn.addEventListener('click', saveRoutine);
 
+            // Reset to Default (All Days)
             clearStorageBtn.addEventListener('click', () => {
-                localStorage.setItem('dailyRoutines', JSON.stringify(initialRoutines));
-                routines = JSON.parse(JSON.stringify(initialRoutines));
-                displayRoutine(currentDay);
+                if (confirm('Are you sure you want to reset ALL routines to the default factory settings?')) {
+                    localStorage.setItem('dailyRoutines', JSON.stringify(initialRoutines));
+                    routines = JSON.parse(JSON.stringify(initialRoutines));
+                    displayRoutine(currentDay);
+                }
             });
             
+            // FORGE YOUR PATH (Resets ONLY the current day's routine and enters Edit Mode)
             clearAllBtn.addEventListener('click', () => {
-                localStorage.removeItem('dailyRoutines');
-                routines = {
-                    'Monday': { routine: [], notes: '' },
-                    'Tuesday': { routine: [], notes: '' },
-                    'Wednesday': { routine: [], notes: '' },
-                    'Thursday': { routine: [], notes: '' },
-                    'Friday': { routine: [], notes: '' },
-                    'Saturday': { routine: [], notes: '' },
-                    'Sunday': { routine: [], notes: '' }
-                };
-                displayRoutine(currentDay);
+                if (confirm(`Are you sure you want to completely clear the routine for ${currentDay}? This action cannot be undone.`)) {
+                    // 1. Reset ONLY the current day's routine to be empty
+                    routines[currentDay] = { 
+                        routine: [], 
+                        notes: routines[currentDay] ? routines[currentDay].notes : '' 
+                    };
+
+                    // 2. Save the entire routines object back to localStorage
+                    localStorage.setItem('dailyRoutines', JSON.stringify(routines)); 
+
+                    // 3. Immediately switch to Edit Mode
+                    displayRoutine(currentDay, true); 
+                }
             });
             
+            // Add New Category in Edit Mode
             addCategoryBtn.addEventListener('click', () => {
+                // Capture current state before modifying the array and re-rendering
+                captureCurrentRoutineState();
+                
                 const newCategory = { category: 'New Category', exercises: [] };
                 if (!routines[currentDay]) {
                     routines[currentDay] = { notes: '', routine: [] };
@@ -560,7 +673,7 @@
                 displayRoutine(currentDay, true);
             });
 
-            // Notes auto-save listener, independent of routine editing
+            // Notes auto-save listener
             notesTextarea.addEventListener('input', () => {
                  if (routines[currentDay]) {
                     routines[currentDay].notes = notesTextarea.value;
@@ -568,7 +681,81 @@
                  }
             });
 
-            // Stopwatch logic
+            // ------------------------------------
+            // Config Download/Upload Logic
+            // ------------------------------------
+            
+            const downloadConfig = () => {
+                // Capture current state before downloading, if in Edit Mode
+                if (isEditing) {
+                    captureCurrentRoutineState();
+                }
+
+                const dataStr = JSON.stringify(routines, null, 4); 
+                const blob = new Blob([dataStr], { type: "application/json" });
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `DailyGrind_Routine_Config_${new Date().toISOString().slice(0, 10)}.json`;
+                
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                alert('Routine configuration downloaded successfully!');
+            };
+
+            const uploadConfig = (event) => {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    try {
+                        const uploadedRoutines = JSON.parse(e.target.result);
+                        
+                        // Basic validation: Check for the structure integrity
+                        if (typeof uploadedRoutines !== 'object' || !uploadedRoutines.Monday || !uploadedRoutines.Monday.routine || !uploadedRoutines.Sunday) {
+                            throw new Error("Invalid file structure. Please upload a valid Daily Grind config file.");
+                        }
+
+                        if (confirm('Are you sure you want to overwrite your entire routine with the uploaded config file?')) {
+                            // NEW: Strip the legacy 'completed' status from uploaded file as well
+                            Object.values(uploadedRoutines).forEach(dayRoutine => {
+                                dayRoutine.routine.forEach(section => {
+                                    section.exercises.forEach(exercise => {
+                                        delete exercise.completed; // Remove the property
+                                    });
+                                });
+                            });
+                            
+                            routines = uploadedRoutines;
+                            localStorage.setItem('dailyRoutines', JSON.stringify(routines));
+                            displayRoutine(currentDay);
+                            alert('Routine configuration uploaded and updated successfully!');
+                        }
+                        
+                    } catch (error) {
+                        alert(`Error uploading configuration: ${error.message}`);
+                        console.error('Upload Error:', error);
+                    }
+                    // Clear the input value so the same file can be uploaded again if needed
+                    event.target.value = ''; 
+                };
+
+                reader.readAsText(file);
+            };
+
+            downloadConfigBtn.addEventListener('click', downloadConfig);
+            uploadConfigInput.addEventListener('change', uploadConfig);
+
+
+            // ------------------------------------
+            // Stopwatch Logic
+            // ------------------------------------
             const formatTime = (ms) => {
                 let seconds = Math.floor(ms / 1000);
                 let minutes = Math.floor(seconds / 60);
@@ -616,126 +803,264 @@
                 endTimeDisplay.textContent = '';
             });
 
-            // PDF generation
+            // ------------------------------------
+            // PDF generation (jsPDF) (UPDATED for two-column, no 'Completed')
+            // ------------------------------------
             shareBtn.addEventListener('click', () => {
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF();
                 const margin = 15;
                 let y = margin;
-                const lineHeight = 7;
-                const today = new Date().toLocaleDateString();
-
-                doc.setFontSize(22);
-                doc.setFont("helvetica", "bold");
-                doc.text(`${currentDay}'s Routine`, 20, y);
-                y += 10;
-                doc.setFontSize(10);
-                doc.text(`Generated on: ${today}`, 20, y);
-                y += 5;
-
-                if (routineStartTime) {
-                    doc.text(`Workout Start: ${routineStartTime.toLocaleTimeString()}`, 20, y);
-                    y += 5;
-                }
-                if (routineEndTime) {
-                    doc.text(`Workout End: ${routineEndTime.toLocaleTimeString()}`, 20, y);
-                    y += 5;
-                }
-                y += 10;
+                const lineHeight = 6;
+                const columnWidth = 85; // A4 width is ~210mm. Use 85mm for columns with 15mm margin on both sides and 10mm gap.
+                const columnGap = 10;
+                const columnX = [margin, margin + columnWidth + columnGap];
+                let currentColumn = 0;
+                const pageMaxY = 280; // Standard A4 max height
 
                 const routineData = routines[currentDay] || { routine: [], notes: '' };
                 const routine = routineData.routine;
                 const notes = routineData.notes;
+                
+                // Helper to check for page break
+                const checkPageBreak = (neededHeight) => {
+                    if (y + neededHeight > pageMaxY) {
+                        doc.addPage();
+                        y = margin;
+                        currentColumn = 0; // Reset to the first column
+                        // Redraw header on new page if desired, but for routine text, just restart position
+                    }
+                };
 
-                doc.setFontSize(16);
+                // --- HEADER ---
+                doc.setFontSize(24);
                 doc.setFont("helvetica", "bold");
-
+                doc.text(`${currentDay}'s Routine`, margin, y);
+                y += 10;
+                
+                doc.setFontSize(10);
+                doc.setFont("helvetica", "normal");
+                const today = new Date().toLocaleDateString();
+                doc.text(`Generated: ${today}`, margin, y);
+                y += 5;
+                if (routineStartTime || routineEndTime) {
+                    doc.text(`Duration: ${stopwatchDisplay.textContent}`, margin, y);
+                    y += 5;
+                }
+                
+                y += 10;
+                
+                // --- ROUTINE BODY (Two Columns) ---
                 if (routine.length > 0) {
-                    routine.forEach(section => {
-                        if (y > 280) {
-                            doc.addPage();
-                            y = margin;
-                        }
-                        doc.text(section.category, 20, y);
-                        y += 5;
+                    doc.setFontSize(16);
+                    doc.setFont("helvetica", "bold");
 
+                    routine.forEach(section => {
+                        // Estimate height for section header + first exercise
+                        let requiredSpace = 5; // Category title space
+
+                        // If not enough room for category in current column, move to next column or new page
+                        if (y + requiredSpace > pageMaxY) {
+                            currentColumn = (currentColumn === 0) ? 1 : 0;
+                            if (currentColumn === 0) {
+                                checkPageBreak(0); // Add page if needed
+                            } else {
+                                y = margin; // Jump to start of second column
+                            }
+                        }
+
+                        // Print Category Title
+                        doc.setFontSize(16);
+                        doc.setFont("helvetica", "bold");
+                        doc.text(section.category, columnX[currentColumn], y);
+                        y += 5;
+                        
                         doc.setFontSize(12);
                         doc.setFont("helvetica", "normal");
+
                         section.exercises.forEach(exercise => {
-                            if (y > 280) {
-                                doc.addPage();
-                                y = margin;
-                                doc.setFontSize(16);
-                                doc.setFont("helvetica", "bold");
-                                doc.text(section.category, 20, y);
-                                y += 5;
-                                doc.setFontSize(12);
-                                doc.setFont("helvetica", "normal");
+                            // Calculate space needed for exercise name + all logs
+                            let exerciseHeight = lineHeight; // for exercise name
+                            exercise.logs.forEach(log => {
+                                const logText = log.weight.trim() || log.reps.trim();
+                                if (logText) exerciseHeight += lineHeight;
+                            });
+                            exerciseHeight += 1; // Extra space after exercise
+
+                            // Check if exercise fits in current column
+                            if (y + exerciseHeight > pageMaxY) {
+                                // Attempt to move to next column
+                                currentColumn = (currentColumn === 0) ? 1 : 0;
+                                if (currentColumn === 0) {
+                                    // If column 1 also full, add new page
+                                    doc.addPage();
+                                    y = margin;
+                                } else {
+                                    // Else, just reset y for column 2 start
+                                    y = margin; 
+                                }
+
+                                // If new column/page is used, ensure we're not starting a section that finished on the previous one.
+                                // Re-print the category name if we're not at the very top of a new column/page
+                                if (y > margin) {
+                                    doc.setFontSize(16);
+                                    doc.setFont("helvetica", "bold");
+                                    doc.text(section.category, columnX[currentColumn], y);
+                                    y += 5;
+                                    doc.setFontSize(12);
+                                    doc.setFont("helvetica", "normal");
+                                }
                             }
-                            const setsReps = exercise.sets && exercise.reps ? ` - ${exercise.sets} sets x ${exercise.reps} reps` : '';
-                            const statusText = exercise.completed ? ' (Completed)' : ' (Bailed)';
-                            doc.text(`- ${exercise.name}${setsReps}${statusText}`, 25, y);
+                            
+                            // Print Exercise Name
+                            doc.text(`- ${exercise.name}`, columnX[currentColumn] + 5, y); // Indent slightly for bullet
                             y += lineHeight;
+
+                            // Print Logs/Sets
+                            doc.setFontSize(10); // Smaller font for sets
+                            doc.setFont("helvetica", "italic");
+                            exercise.logs.forEach(log => {
+                                let entry = [];
+                                
+                                const weightValue = log.weight.trim();
+                                let weightDisplay = weightValue;
+                                // LOGIC: Add 'kg' if weight is a number
+                                if (weightValue && !isNaN(parseFloat(weightValue)) && isFinite(weightValue)) {
+                                    weightDisplay = `${weightValue}kg`;
+                                }
+                                
+                                if (weightDisplay) entry.push(weightDisplay);
+                                if (log.reps) entry.push(log.reps);
+                                
+                                const logText = entry.join(' x ');
+                                if (logText) {
+                                    doc.text(`  ${logText}`, columnX[currentColumn] + 10, y); // Indent more
+                                    y += lineHeight;
+                                }
+                            });
+                            
+                            doc.setFontSize(12);
+                            doc.setFont("helvetica", "normal");
+                            y += 1; // Small separator space
                         });
-                        y += 10;
+                        y += 3; // Extra space after all exercises in the section
                     });
                 } else {
                     doc.setFontSize(14);
-                    doc.text("Rest Day - No routine planned.", 20, y);
+                    doc.text("Rest Day / No routine planned.", margin, y);
                     y += 20;
                 }
+                
+                // If the second column was used, ensure notes start on a new line after the highest column
+                if (currentColumn === 1 && y < pageMaxY) {
+                    y = pageMaxY;
+                }
 
+                // --- NOTES ---
                 if (notes) {
+                    checkPageBreak(25); // Check if enough space for Notes header and a line of text
+
                     doc.setFontSize(16);
                     doc.setFont("helvetica", "bold");
-                    doc.text("Notes", 20, y);
+                    doc.text("Notes", margin, y);
                     y += 5;
+                    
                     doc.setFontSize(12);
                     doc.setFont("helvetica", "normal");
-                    const splitNotes = doc.splitTextToSize(notes, 170); // 170mm width
-                    doc.text(splitNotes, 25, y);
+                    
+                    // Reset to margin for notes since they span full width
+                    const splitNotes = doc.splitTextToSize(notes, 180); // 180mm width for full page text
+                    doc.text(splitNotes, margin + 5, y);
                 }
 
                 doc.save(`${currentDay}_Workout_Routine.pdf`);
             });
 
-            // Handle adding/deleting/reordering in edit mode
+            // ------------------------------------
+            // Dynamic Edit Mode Handlers
+            // ------------------------------------
             document.addEventListener('click', (event) => {
                 const addBtn = event.target.closest('.add-exercise-btn');
-                const deleteBtn = event.target.closest('.delete-exercise-btn');
+                const deleteExBtn = event.target.closest('.delete-exercise-btn');
+                const addSetBtn = event.target.closest('.add-set-btn');
+                const deleteSetBtn = event.target.closest('.delete-set-btn');
                 const upCatBtn = event.target.closest('.up-arrow-category');
                 const downCatBtn = event.target.closest('.down-arrow-category');
                 const upExBtn = event.target.closest('.up-arrow-exercise');
                 const downExBtn = event.target.closest('.down-arrow-exercise');
-                const completedCheckbox = event.target.closest('.completed-checkbox');
+                // REMOVED: const completedCheckbox = event.target.closest('.completed-checkbox'); // Removed logic
                 
                 if (addBtn) {
+                    // 1. Capture current state before modifying array
+                    captureCurrentRoutineState();
+                    
                     const categoryIndex = addBtn.dataset.categoryIndex;
                     const routineSection = routines[currentDay].routine[categoryIndex];
-                    routineSection.exercises.push({ name: '', sets: null, reps: null, completed: false, url: '' });
+                    // NEW: Default exercise with one empty log entry
+                    routineSection.exercises.push({ name: '', logs: [{ weight: '', reps: '' }], url: '' });
                     displayRoutine(currentDay, true);
-                } else if (deleteBtn) {
-                    const categoryIndex = deleteBtn.dataset.categoryIndex;
-                    const exerciseIndex = deleteBtn.dataset.exerciseIndex;
+                } else if (deleteExBtn) {
+                    // 1. Capture current state before modifying array
+                    captureCurrentRoutineState();
+                    
+                    const categoryIndex = deleteExBtn.dataset.categoryIndex;
+                    const exerciseIndex = deleteExBtn.dataset.exerciseIndex;
                     const routineSection = routines[currentDay].routine[categoryIndex];
                     routineSection.exercises.splice(exerciseIndex, 1);
+                    // Remove category if it becomes empty and there's more than one category
                     if (routineSection.exercises.length === 0 && routines[currentDay].routine.length > 1) {
                         routines[currentDay].routine.splice(categoryIndex, 1);
                     }
                     displayRoutine(currentDay, true);
+                } else if (addSetBtn) {
+                    // FIX: Capture current state before modifying array
+                    captureCurrentRoutineState();
+
+                    const categoryIndex = parseInt(addSetBtn.dataset.categoryIndex);
+                    const exerciseIndex = parseInt(addSetBtn.dataset.exerciseIndex);
+                    const exercise = routines[currentDay].routine[categoryIndex].exercises[exerciseIndex];
+                    exercise.logs.push({ weight: '', reps: '' });
+                    displayRoutine(currentDay, true); // Re-render to show new set
+                } else if (deleteSetBtn) {
+                    // FIX: Capture current state before modifying array
+                    captureCurrentRoutineState();
+                    
+                    const categoryIndex = parseInt(deleteSetBtn.dataset.categoryIndex);
+                    const exerciseIndex = parseInt(deleteSetBtn.dataset.exerciseIndex);
+                    const logIndex = parseInt(deleteSetBtn.dataset.logIndex);
+                    
+                    const logs = routines[currentDay].routine[categoryIndex].exercises[exerciseIndex].logs;
+                    
+                    // Prevent deleting the last log entry, must have at least one set
+                    if (logs.length > 1) {
+                         logs.splice(logIndex, 1);
+                    } else {
+                        // Optionally clear the last remaining set instead of deleting
+                        logs[0] = { weight: '', reps: '' };
+                    }
+                    displayRoutine(currentDay, true); // Re-render to update
                 } else if (upCatBtn) {
+                    // 1. Capture current state before modifying array
+                    captureCurrentRoutineState();
+                    
                     const index = parseInt(upCatBtn.dataset.index);
                     if (index > 0) {
                         swapElements(routines[currentDay].routine, index, index - 1);
                         displayRoutine(currentDay, true);
                     }
                 } else if (downCatBtn) {
+                    // 1. Capture current state before modifying array
+                    captureCurrentRoutineState();
+                    
                     const index = parseInt(downCatBtn.dataset.index);
                     if (index < routines[currentDay].routine.length - 1) {
                         swapElements(routines[currentDay].routine, index, index + 1);
                         displayRoutine(currentDay, true);
                     }
                 } else if (upExBtn) {
+                    // 1. Capture current state before modifying array
+                    captureCurrentRoutineState();
+                    
                     const categoryIndex = parseInt(upExBtn.dataset.categoryIndex);
                     const exerciseIndex = parseInt(upExBtn.dataset.exerciseIndex);
                     if (exerciseIndex > 0) {
@@ -744,6 +1069,9 @@
                         displayRoutine(currentDay, true);
                     }
                 } else if (downExBtn) {
+                    // 1. Capture current state before modifying array
+                    captureCurrentRoutineState();
+                    
                     const categoryIndex = parseInt(downExBtn.dataset.categoryIndex);
                     const exerciseIndex = parseInt(downExBtn.dataset.exerciseIndex);
                     const exercises = routines[currentDay].routine[categoryIndex].exercises;
@@ -751,15 +1079,8 @@
                         swapElements(exercises, exerciseIndex, exerciseIndex + 1);
                         displayRoutine(currentDay, true);
                     }
-                } else if (completedCheckbox && !isEditing) {
-                    const categoryName = completedCheckbox.dataset.category;
-                    const routineSection = routines[currentDay].routine.find(sec => sec.category === categoryName);
-                    const exerciseIndex = completedCheckbox.dataset.exerciseIndex;
-                    if (routineSection) {
-                         routineSection.exercises[exerciseIndex].completed = completedCheckbox.checked;
-                         localStorage.setItem('dailyRoutines', JSON.stringify(routines));
-                    }
                 }
+                // REMOVED: Checkbox logic
             });
 
             // Display current day's routine on page load
