@@ -85,7 +85,6 @@
         .stopwatch-button:hover {
             transform: scale(1.05);
         }
-        /* REMOVED: .completed-checkbox:checked + div .completed-text { ... } */
         /* Style for the new indented set list - Ensuring no bullet point */
         .sets-list li, .sets-list div {
             padding-left: 0.5rem; /* Small indent */
@@ -275,6 +274,29 @@
             };
 
             let routines = {};
+            
+            // --- NEW FUNCTION: Calculate the total volume for a given category/section ---
+            const calculateCategoryVolume = (section) => {
+                let totalVolume = 0;
+                
+                section.exercises.forEach(exercise => {
+                    exercise.logs.forEach(log => {
+                        // Attempt to parse weight and reps as numbers
+                        const weight = parseFloat(log.weight);
+                        const reps = parseFloat(log.reps);
+
+                        // Volume is calculated only if both are valid numbers
+                        if (!isNaN(weight) && isFinite(weight) && !isNaN(reps) && isFinite(reps)) {
+                            totalVolume += weight * reps;
+                        }
+                    });
+                });
+                
+                // Format the volume (e.g., round to the nearest integer)
+                // Use toLocaleString for comma separation (e.g., 20,000)
+                return Math.round(totalVolume).toLocaleString(); 
+            };
+            // --- END NEW FUNCTION ---
 
             // Routine & State Elements
             const dayTitleEl = document.getElementById('day-title');
@@ -440,7 +462,7 @@
                 
                 if (isEditing) {
                     // ------------------
-                    // Render EDIT MODE (No change needed here for the exercise rows)
+                    // Render EDIT MODE 
                     // ------------------
                     routine.forEach((section, categoryIndex) => {
                         const sectionDiv = document.createElement('div');
@@ -533,12 +555,16 @@
                     addCategoryBtn.style.display = 'block';
                 } else {
                     // ------------------
-                    // Render VIEW MODE (UPDATED: Checkbox and completed logic removed)
+                    // Render VIEW MODE (UPDATED: Added Volume Calculation)
                     // ------------------
                     if (routine.length > 0) {
                         routine.forEach(section => {
                             const sectionDiv = document.createElement('div');
                             sectionDiv.className = 'card-custom p-4';
+                            
+                            // --- NEW: Calculate Volume for the current category ---
+                            const volume = calculateCategoryVolume(section); 
+                            // --- END NEW ---
                             
                             const exercisesHtml = section.exercises.map((exercise) => {
                                 const url = exercise.url && exercise.url.trim() !== '' 
@@ -580,7 +606,10 @@
                             }).join('');
                             
                             sectionDiv.innerHTML = `
-                                <h3 class="text-lg font-semibold mb-2 text-yellow-400">${section.category}</h3>
+                                <h3 class="text-lg font-semibold mb-2 text-yellow-400">
+                                    ${section.category} 
+                                    <span class="text-base font-normal text-gray-400">- ${volume || 'N/A'}</span>
+                                </h3>
                                 <ul class="list-none">
                                     ${exercisesHtml}
                                 </ul>
@@ -856,8 +885,11 @@
                     doc.setFont("helvetica", "bold");
 
                     routine.forEach(section => {
-                        // Estimate height for section header + first exercise
-                        let requiredSpace = 5; // Category title space
+                        // Calculate Volume and include it in the category title
+                        const volume = calculateCategoryVolume(section);
+
+                        // Estimate height for section header + volume display
+                        let requiredSpace = 10; 
 
                         // If not enough room for category in current column, move to next column or new page
                         if (y + requiredSpace > pageMaxY) {
@@ -869,10 +901,10 @@
                             }
                         }
 
-                        // Print Category Title
+                        // Print Category Title (with Volume)
                         doc.setFontSize(16);
                         doc.setFont("helvetica", "bold");
-                        doc.text(section.category, columnX[currentColumn], y);
+                        doc.text(`${section.category} - ${volume || 'N/A'}`, columnX[currentColumn], y);
                         y += 5;
                         
                         doc.setFontSize(12);
@@ -900,16 +932,14 @@
                                     y = margin; 
                                 }
 
-                                // If new column/page is used, ensure we're not starting a section that finished on the previous one.
-                                // Re-print the category name if we're not at the very top of a new column/page
-                                if (y > margin) {
-                                    doc.setFontSize(16);
-                                    doc.setFont("helvetica", "bold");
-                                    doc.text(section.category, columnX[currentColumn], y);
-                                    y += 5;
-                                    doc.setFontSize(12);
-                                    doc.setFont("helvetica", "normal");
-                                }
+                                // If new column/page is used, re-print the category name
+                                doc.setFontSize(16);
+                                doc.setFont("helvetica", "bold");
+                                doc.text(`${section.category} - ${volume || 'N/A'}`, columnX[currentColumn], y);
+                                y += 5;
+                                doc.setFontSize(12);
+                                doc.setFont("helvetica", "normal");
+                                
                             }
                             
                             // Print Exercise Name
@@ -988,7 +1018,6 @@
                 const downCatBtn = event.target.closest('.down-arrow-category');
                 const upExBtn = event.target.closest('.up-arrow-exercise');
                 const downExBtn = event.target.closest('.down-arrow-exercise');
-                // REMOVED: const completedCheckbox = event.target.closest('.completed-checkbox'); // Removed logic
                 
                 if (addBtn) {
                     // 1. Capture current state before modifying array
@@ -1080,7 +1109,6 @@
                         displayRoutine(currentDay, true);
                     }
                 }
-                // REMOVED: Checkbox logic
             });
 
             // Display current day's routine on page load
