@@ -25,37 +25,37 @@
         }
         .feature-list li {
             display: flex;
-            align-items: center;
+            align-items: flex-start; /* Aligns icons to top of multi-line text */
             margin-bottom: 8px;
             font-size: 0.95rem;
+            line-height: 1.4;
         }
     </style>
 </head>
 <body class="bg-gray-50 font-sans">
 
-    <!-- Header Section -->
     <header class="bg-indigo-700 shadow-xl">
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-start flex-wrap">
-                <div class="mb-4 sm:mb-0">
-                    <h1 class="text-3xl font-extrabold text-white tracking-tight">
+                <div class="mb-4 sm:mb-0 w-full sm:w-auto">
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
                         Services Pricing
                     </h1>
-                    <p class="text-indigo-300 mt-1 font-medium">
+                    <p class="text-indigo-300 mt-1 font-medium text-sm sm:text-base">
                         Standard Packages, Starting Rates, and Key Information.
                     </p>
-                    <p class="text-sm text-indigo-200 mt-2">
+                    <p class="text-xs sm:text-sm text-indigo-200 mt-2">
                         Last updated: <span class="font-semibold text-white">November 22, 2025 at 14:00</span>
                     </p>
                 </div>
                 
-                <div class="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4 mt-2 self-start sm:self-center">
+                <div class="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4 mt-2 w-full sm:w-auto self-start sm:self-center">
                     <a href="mailto:info@cyberalliance.in?subject=Custom%20Pricing%20Request%20-%20Web/App%20Development" 
-                       class="bg-yellow-400 text-gray-900 text-sm font-bold py-2 px-4 rounded-lg shadow-md hover:bg-yellow-500 transition duration-150 ease-in-out flex items-center justify-center">
+                       class="bg-yellow-400 text-gray-900 text-sm font-bold py-2 px-4 rounded-lg shadow-md hover:bg-yellow-500 transition duration-150 ease-in-out flex items-center justify-center text-center">
                         Request Custom Quote
                     </a>
                     <a href="https://cyberalliance.in/referral-policy.html" 
-                       class="bg-pink-500 text-white text-sm font-bold py-2 px-4 rounded-lg shadow-md hover:bg-pink-600 transition duration-150 ease-in-out flex items-center justify-center">
+                       class="bg-pink-500 text-white text-sm font-bold py-2 px-4 rounded-lg shadow-md hover:bg-pink-600 transition duration-150 ease-in-out flex items-center justify-center text-center">
                         View Referral Policy
                     </a>
                 </div>
@@ -63,104 +63,75 @@
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <main class="max-w-7xl mx-auto py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
 
-        <!-- Informational Alert -->
-        <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-10 shadow-lg" role="note">
+        <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-8 sm:mb-10 shadow-lg rounded-r" role="note">
             <p class="font-bold">NOTE ON CUSTOMIZATION</p>
             <p class="text-sm">
-                All prices below are for standard, fixed-scope projects.<br>
+                All prices below are for standard, fixed-scope projects.<br class="hidden sm:inline">
                 Pricing for advanced features, complex integrations, custom APIs, or specific industry compliance may require a <strong>customized quote</strong>.
             </p>
         </div>
 
-        <!-- 1. Web Development Pricing -->
-        <section id="web-development" class="bg-white shadow-xl rounded-lg p-8 mb-12">
-            <h2 class="text-3xl font-bold text-gray-800 border-b pb-3 mb-8 text-indigo-700">
+        <section id="web-development" class="bg-white shadow-xl rounded-lg p-4 sm:p-8 mb-12">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 border-b pb-3 mb-6 sm:mb-8 text-indigo-700">
                 1. Web Development Packages
             </h2>
             
-            <p class="text-gray-600 mb-6">
-                Our core web development services are based on scalable, responsive design and modern frameworks.<br>
-                Prices reflect the scope and complexity of features.
+            <p class="text-gray-600 mb-6 text-sm sm:text-base">
+                Our core web development services are based on scalable, responsive design and modern frameworks.
             </p>
 
-            <div class="overflow-x-auto mb-4">
-                <table class="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg pricing-table">
+            <div class="hidden md:block overflow-x-auto mb-4 rounded-lg border border-gray-200">
+                <table class="min-w-full divide-y divide-gray-200 pricing-table">
                     <thead class="bg-indigo-50">
                         <tr>
-                            <th scope="col" class="px-6 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider text-center">
-                                Package Name
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider text-center">
-                                Best For
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider text-center">
-                                Price (Starting From)
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                                Key Inclusions
-                            </th>
+                            <th scope="col" class="px-6 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider text-center w-1/4">Package Name</th>
+                            <th scope="col" class="px-6 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider text-center w-1/4">Best For</th>
+                            <th scope="col" class="px-6 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider text-center w-1/6">Price (Starting)</th>
+                            <th scope="col" class="px-6 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/3">Key Inclusions</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                         <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 text-center whitespace-nowrap text-lg font-bold text-indigo-600">
-                                Single-page Site
-                            </td>
-                            <td class="px-6 py-4 text-center text-sm text-gray-600">
-                                Static presence, Landing Pages, Portfolios.
-                            </td>
-                            <td class="px-6 py-4 text-center whitespace-nowrap text-xl font-extrabold text-green-700">
-                                ₹8,000
-                            </td>
+                            <td class="px-6 py-4 text-center whitespace-nowrap text-lg font-bold text-indigo-600">Single-page Site</td>
+                            <td class="px-6 py-4 text-center text-sm text-gray-600">Static presence, Landing Pages, Portfolios.</td>
+                            <td class="px-6 py-4 text-center whitespace-nowrap text-xl font-extrabold text-green-700">₹8,000</td>
                             <td class="px-6 py-4 text-sm text-gray-600">
                                 <ul class="feature-list">
                                     <li><span class="text-green-500 mr-2">&#10003;</span> 1-2 Pages</li>
                                     <li><span class="text-green-500 mr-2">&#10003;</span> 1 Basic Contact Form</li>
                                     <li><span class="text-green-500 mr-2">&#10003;</span> Responsive Design</li>                                    
                                     <li><span class="text-red-500 mr-2">&#10007;</span> No Database/CMS</li>
-                                    <li><span class="text-red-500 mr-2">&#10007;</span> SEO/Analytics/Chatbot</li>
                                 </ul>
                             </td>
                         </tr>
                         <tr class="hover:bg-gray-50 bg-indigo-50">
-                            <td class="px-6 py-4 text-center whitespace-nowrap text-lg font-bold text-indigo-700">
+                            <td class="px-6 py-4 text-center whitespace-nowrap text-lg font-bold text-indigo-700 relative">
                                 Multi-page Site
+                                <br>
+                                <span class="inline-block mt-1 bg-indigo-600 text-white text-[10px] px-2 py-0.5 rounded-full uppercase tracking-wide shadow-sm">Popular</span>
                             </td>
-                            <td class="px-6 py-4 text-center text-sm text-gray-600 font-semibold">
-                                Businesses, Informational Sites.
-                            </td>
-                            <td class="px-6 py-4 text-center whitespace-nowrap text-2xl font-extrabold text-green-800">
-                                ₹25,000
-                            </td>
+                            <td class="px-6 py-4 text-center text-sm text-gray-600 font-semibold">Businesses, Informational Sites.</td>
+                            <td class="px-6 py-4 text-center whitespace-nowrap text-2xl font-extrabold text-green-800">₹25,000</td>
                             <td class="px-6 py-4 text-sm text-gray-600">
                                 <ul class="feature-list">
-                                    <li><span class="text-green-500 mr-2">&#10003;</span> 5-10 Packages</li>
-                                    <li><span class="text-green-500 mr-2">&#10003;</span> 2-3 Forms</li>
+                                    <li><span class="text-green-500 mr-2">&#10003;</span> 5-10 Pages</li>
                                     <li><span class="text-green-500 mr-2">&#10003;</span> SEO Optimization Framework</li>
                                     <li><span class="text-green-500 mr-2">&#10003;</span> Analytics Integration</li>
-                                    <li><span class="text-red-500 mr-2">&#10007;</span> No Database/CMS</li>
                                     <li><span class="text-green-500 mr-2">&#10003;</span> Chatbot Integration</li>                                    
                                 </ul>
                             </td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 text-center whitespace-nowrap text-lg font-bold text-indigo-600">
-                                Custom Web Application
-                            </td>
-                            <td class="px-6 py-4 text-center text-sm text-gray-600">
-                                Internal Business logic like HRMS, ERP, Inventory.
-                            </td>
-                            <td class="px-6 py-4 text-center whitespace-nowrap text-xl font-extrabold text-green-700">
-                                ₹2,00,000
-                            </td>
+                            <td class="px-6 py-4 text-center whitespace-nowrap text-lg font-bold text-indigo-600">Custom Web App</td>
+                            <td class="px-6 py-4 text-center text-sm text-gray-600">Internal Business logic like HRMS, ERP, Inventory.</td>
+                            <td class="px-6 py-4 text-center whitespace-nowrap text-xl font-extrabold text-green-700">₹2,00,000</td>
                             <td class="px-6 py-4 text-sm text-gray-600">
                                 <ul class="feature-list">
                                     <li><span class="text-green-500 mr-2">&#10003;</span> Custom Frontend & Backend</li>
                                     <li><span class="text-green-500 mr-2">&#10003;</span> Database & API Integration</li>
-                                    <li><span class="text-green-500 mr-2">&#10003;</span> User Authentication & Roles</li>
-                                    <li><span class="text-blue-500 mr-2">&#9432;</span> Detailed consultation required for final pricng. </li>
+                                    <li><span class="text-blue-500 mr-2">&#9432;</span> Detailed consultation required. </li>
                                 </ul>
                             </td>
                         </tr>
@@ -168,10 +139,68 @@
                 </table>
             </div>
 
-            <p class="text-sm text-gray-500 mt-6 p-3 bg-gray-100 rounded">
+            <div class="md:hidden flex flex-col space-y-6">
+                
+                <div class="bg-white border border-gray-200 rounded-xl shadow-md overflow-hidden">
+                    <div class="bg-indigo-50 p-4 border-b border-gray-100">
+                        <h3 class="text-lg font-bold text-indigo-700">Single-page Site</h3>
+                        <p class="text-xs text-gray-500 mt-1 italic">Best for: Static presence, Landing Pages, Portfolios.</p>
+                    </div>
+                    <div class="p-5">
+                        <div class="text-3xl font-extrabold text-green-700 mb-4">₹8,000 <span class="text-sm font-normal text-gray-500">starting</span></div>
+                        <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3">Key Inclusions</h4>
+                        <ul class="feature-list text-gray-600">
+                            <li><span class="text-green-500 mr-2 font-bold">&#10003;</span> 1-2 Pages</li>
+                            <li><span class="text-green-500 mr-2 font-bold">&#10003;</span> 1 Basic Contact Form</li>
+                            <li><span class="text-green-500 mr-2 font-bold">&#10003;</span> Responsive Design</li>                                    
+                            <li><span class="text-red-500 mr-2 font-bold">&#10007;</span> No Database/CMS</li>
+                            <li><span class="text-red-500 mr-2 font-bold">&#10007;</span> No SEO/Analytics</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-white border-2 border-indigo-200 rounded-xl shadow-lg overflow-hidden relative">
+                    <div class="absolute top-0 right-0 bg-indigo-600 text-white text-[10px] font-bold px-2 py-1 rounded-bl-lg">POPULAR</div>
+                    <div class="bg-indigo-100 p-4 border-b border-indigo-200">
+                        <h3 class="text-lg font-bold text-indigo-800">Multi-page Site</h3>
+                        <p class="text-xs text-indigo-600 mt-1 italic">Best for: Businesses, Informational Sites.</p>
+                    </div>
+                    <div class="p-5">
+                        <div class="text-3xl font-extrabold text-green-800 mb-4">₹25,000 <span class="text-sm font-normal text-gray-500">starting</span></div>
+                        <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3">Key Inclusions</h4>
+                        <ul class="feature-list text-gray-600">
+                            <li><span class="text-green-500 mr-2 font-bold">&#10003;</span> 5-10 Pages</li>
+                            <li><span class="text-green-500 mr-2 font-bold">&#10003;</span> 2-3 Forms</li>
+                            <li><span class="text-green-500 mr-2 font-bold">&#10003;</span> SEO Optimization Framework</li>
+                            <li><span class="text-green-500 mr-2 font-bold">&#10003;</span> Analytics Integration</li>
+                            <li><span class="text-green-500 mr-2 font-bold">&#10003;</span> Chatbot Integration</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-gray-200 rounded-xl shadow-md overflow-hidden">
+                    <div class="bg-indigo-50 p-4 border-b border-gray-100">
+                        <h3 class="text-lg font-bold text-indigo-700">Custom Web App</h3>
+                        <p class="text-xs text-gray-500 mt-1 italic">Best for: HRMS, ERP, Inventory, Internal Tools.</p>
+                    </div>
+                    <div class="p-5">
+                        <div class="text-3xl font-extrabold text-green-700 mb-4">₹2,00,000 <span class="text-sm font-normal text-gray-500">starting</span></div>
+                        <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3">Key Inclusions</h4>
+                        <ul class="feature-list text-gray-600">
+                            <li><span class="text-green-500 mr-2 font-bold">&#10003;</span> Custom Frontend & Backend</li>
+                            <li><span class="text-green-500 mr-2 font-bold">&#10003;</span> Database & API Integration</li>
+                            <li><span class="text-green-500 mr-2 font-bold">&#10003;</span> User Authentication & Roles</li>
+                            <li><span class="text-blue-500 mr-2 font-bold">&#9432;</span> Detailed consultation required.</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <p class="text-sm text-gray-500 mt-6 p-3 bg-gray-100 rounded border border-gray-200">
                 Domain and hosting fees are separate and charged at cost.
                 <br>
-                Any recrurring maintenance, updates, or feature additions are billed separately.
+                Any recurring maintenance, updates, or feature additions are billed separately.
                 <br>
                 All Web Development packages include 1 month of basic technical support post-launch.
                 <br>
@@ -181,71 +210,51 @@
 
         <hr class="border-gray-300 my-12">
 
-        <!-- 2. Shopify Development Pricing -->
-        <section id="shopify-development" class="bg-white shadow-xl rounded-lg p-8 mb-12">
-            <h2 class="text-3xl font-bold text-gray-800 border-b pb-3 mb-8 text-indigo-700">
-                2. Shopify E-commerce Store Development
+        <section id="shopify-development" class="bg-white shadow-xl rounded-lg p-4 sm:p-8 mb-12">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 border-b pb-3 mb-6 sm:mb-8 text-indigo-700">
+                2. Shopify E-commerce Store
             </h2>
 
-            <p class="text-gray-600 mb-6">
+            <p class="text-gray-600 mb-6 text-sm sm:text-base">
                 We specialize in building professional Shopify stores that are optimized for sales and mobile use.
             </p>
 
-            <div class="overflow-x-auto mb-4">
-                <table class="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg pricing-table">
+            <div class="hidden md:block overflow-x-auto mb-4 rounded-lg border border-gray-200">
+                <table class="min-w-full divide-y divide-gray-200 pricing-table">
                     <thead class="bg-pink-50">
                         <tr>
-                            <th scope="col" class="px-6 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider text-center">
-                                Plan
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider text-center">
-                                Ideal for
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider text-center">
-                                Price (Starting From)
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                                Key Features
-                            </th>
+                            <th scope="col" class="px-6 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider text-center w-1/4">Plan</th>
+                            <th scope="col" class="px-6 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider text-center w-1/4">Ideal for</th>
+                            <th scope="col" class="px-6 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider text-center w-1/6">Price (Starting)</th>
+                            <th scope="col" class="px-6 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider w-1/3">Key Features</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                         <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 text-center whitespace-nowrap text-lg font-bold text-pink-600">
-                                Basic E-store Setup
-                            </td>
-                            <td class="px-6 py-4 text-center text-sm text-gray-600">
-                                First-time sellers, small catalogs, essential features.
-                            </td>
-                            <td class="px-6 py-4 text-center whitespace-nowrap text-xl font-extrabold text-green-700">
-                                ₹60,000
-                            </td>
+                            <td class="px-6 py-4 text-center whitespace-nowrap text-lg font-bold text-pink-600">Basic E-store Setup</td>
+                            <td class="px-6 py-4 text-center text-sm text-gray-600">First-time sellers, small catalogs.</td>
+                            <td class="px-6 py-4 text-center whitespace-nowrap text-xl font-extrabold text-green-700">₹60,000</td>
                             <td class="px-6 py-4 text-sm text-gray-600">
                                 <ul class="feature-list">
-                                    <li><span class="text-green-500 mr-2">&#10003;</span> Theme Customization (Non-premium)</li>
+                                    <li><span class="text-green-500 mr-2">&#10003;</span> Theme Customization (Basic)</li>
                                     <li><span class="text-green-500 mr-2">&#10003;</span> Up to 20 Products Uploaded</li>
-                                    <li><span class="text-green-500 mr-2">&#10003;</span> Payment Gateway Integration</li>
-                                    <li><span class="text-green-500 mr-2">&#10003;</span> Delivery Partner Integration</li>
+                                    <li><span class="text-green-500 mr-2">&#10003;</span> Payment & Delivery Integration</li>
                                 </ul>
                             </td>
                         </tr>
-                        <tr class="hover:bg-gray-50 bg-pink-100">
-                            <td class="px-6 py-4 text-center whitespace-nowrap text-lg font-bold text-pink-700">
+                        <tr class="hover:bg-gray-50 bg-pink-50">
+                            <td class="px-6 py-4 text-center whitespace-nowrap text-lg font-bold text-pink-700 relative">
                                 Professional Commerce
+                                <br>
+                                <span class="inline-block mt-1 bg-pink-500 text-white text-[10px] px-2 py-0.5 rounded-full uppercase tracking-wide shadow-sm">Scalable</span>
                             </td>
-                            <td class="px-6 py-4 text-center text-sm text-gray-600 font-semibold">
-                                Growing businesses, diverse product lines, custom features.
-                            </td>
-                            <td class="px-6 py-4 text-center whitespace-nowrap text-2xl font-extrabold text-green-800">
-                                ₹80,000
-                            </td>
+                            <td class="px-6 py-4 text-center text-sm text-gray-600 font-semibold">Growing businesses, diverse product lines.</td>
+                            <td class="px-6 py-4 text-center whitespace-nowrap text-2xl font-extrabold text-green-800">₹80,000</td>
                             <td class="px-6 py-4 text-sm text-gray-600">
                                 <ul class="feature-list">
-                                    <li><span class="text-green-500 mr-2">&#10003;</span> Payment Gateway Integration</li>
-                                    <li><span class="text-green-500 mr-2">&#10003;</span> Delivery Partner Integration</li>                                    
                                     <li><span class="text-green-500 mr-2">&#10003;</span> Premium Theme Customization</li>
                                     <li><span class="text-green-500 mr-2">&#10003;</span> Up to 50 Products Uploaded</li>
-                                    <li><span class="text-blue-500 mr-2">&#9432;</span> Additional Plugins as per Requirements</li>
+                                    <li><span class="text-blue-500 mr-2">&#9432;</span> Additional Plugins</li>
                                 </ul>
                             </td>
                         </tr>
@@ -253,29 +262,67 @@
                 </table>
             </div>
 
-            <p class="text-sm text-gray-500 mt-6 p-3 bg-gray-100 rounded">
-                AMC is currently not available for shopify development.
+            <div class="md:hidden flex flex-col space-y-6">
+                
+                <div class="bg-white border border-gray-200 rounded-xl shadow-md overflow-hidden">
+                    <div class="bg-pink-50 p-4 border-b border-gray-100">
+                        <h3 class="text-lg font-bold text-pink-600">Basic E-store Setup</h3>
+                        <p class="text-xs text-gray-500 mt-1 italic">Best for: First-time sellers, small catalogs.</p>
+                    </div>
+                    <div class="p-5">
+                        <div class="text-3xl font-extrabold text-green-700 mb-4">₹60,000 <span class="text-sm font-normal text-gray-500">starting</span></div>
+                        <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3">Key Features</h4>
+                        <ul class="feature-list text-gray-600">
+                            <li><span class="text-green-500 mr-2 font-bold">&#10003;</span> Theme Customization (Basic)</li>
+                            <li><span class="text-green-500 mr-2 font-bold">&#10003;</span> Up to 20 Products Uploaded</li>
+                            <li><span class="text-green-500 mr-2 font-bold">&#10003;</span> Payment Gateway Integration</li>
+                            <li><span class="text-green-500 mr-2 font-bold">&#10003;</span> Delivery Partner Integration</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-white border-2 border-pink-100 rounded-xl shadow-lg overflow-hidden relative">
+                    <div class="absolute top-0 right-0 bg-pink-500 text-white text-[10px] font-bold px-2 py-1 rounded-bl-lg">SCALABLE</div>
+                    <div class="bg-pink-50 p-4 border-b border-pink-100">
+                        <h3 class="text-lg font-bold text-pink-700">Professional Commerce</h3>
+                        <p class="text-xs text-gray-600 mt-1 italic">Best for: Growing businesses, diverse product lines.</p>
+                    </div>
+                    <div class="p-5">
+                        <div class="text-3xl font-extrabold text-green-800 mb-4">₹80,000 <span class="text-sm font-normal text-gray-500">starting</span></div>
+                        <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3">Key Features</h4>
+                        <ul class="feature-list text-gray-600">
+                            <li><span class="text-green-500 mr-2 font-bold">&#10003;</span> Premium Theme Customization</li>
+                            <li><span class="text-green-500 mr-2 font-bold">&#10003;</span> Payment & Delivery Integration</li>
+                            <li><span class="text-green-500 mr-2 font-bold">&#10003;</span> Up to 50 Products Uploaded</li>
+                            <li><span class="text-blue-500 mr-2 font-bold">&#9432;</span> Additional Plugins included</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <p class="text-sm text-gray-500 mt-6 p-3 bg-gray-100 rounded border border-gray-200">
+                AMC is currently not available for Shopify development.
                 <br>
-                Domain and Shopify Subscription costs are charged seperately.
+                Domain and Shopify Subscription costs are charged separately.
                 <br>
                 Any Product additions, updates, or feature upgrades will be billed separately.
                 <br>
                 All Shopify Development packages include 1 month of basic technical support post-launch.
             </p>
             
-            <div class="p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded-lg mt-6">
+            <div class="p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded-r mt-6">
                 <p class="text-sm text-gray-700">
-                    <span class="font-bold">Mobile App Development [Powered by Shopify]:</span> Starting at 3,00,000/ Requires a detailed consultation to finalize features and pricing.
+                    <span class="font-bold">Mobile App Development [Powered by Shopify]:</span> Starting at 3,00,000. Requires a detailed consultation.
                 </p>
             </div>
         </section>
 
-        <!-- Final CTA Section -->
-        <section id="cta" class="bg-indigo-600 shadow-2xl rounded-lg p-10 text-center mt-12 transform hover:scale-[1.01] transition duration-300 ease-in-out">
-            <h2 class="text-3xl font-extrabold text-white mb-4 tracking-tight">
+        <section id="cta" class="bg-indigo-600 shadow-2xl rounded-lg p-6 sm:p-10 text-center mt-12 transform hover:scale-[1.01] transition duration-300 ease-in-out">
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-4 tracking-tight">
                 Need a Custom Solution?
             </h2>
-            <p class="text-indigo-200 text-xl mb-6">
+            <p class="text-indigo-200 text-lg sm:text-xl mb-6">
                 Contact our sales team for a detailed, no-obligation consultation on your specific project requirements.
             </p>
 
@@ -291,26 +338,23 @@
                     Call Us Now (India)
                 </a>
 
-                <!-- New Referral Button -->
                 <a href="https://links.cyberalliance.in/crp" 
                    class="bg-pink-500 text-white font-bold py-3 px-8 rounded-lg shadow-xl hover:bg-pink-600 transition duration-150 ease-in-out flex items-center justify-center text-center">
-                    Refer a Client & Earn Rewards
+                    Refer & Earn Rewards
                 </a>
             </div>
         </section>
         
     </main>
 
-    <!-- Footer Section -->
     <footer class="bg-gray-800 mt-12">
         <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center">
             <p class="text-gray-400 text-sm">
-                &copy; <span id="current-year"></span> Cyber Alliance India - Services Pricing. All rights reserved..
+                &copy; <span id="current-year"></span> Cyber Alliance India - Services Pricing. All rights reserved.
             </p>
         </div>
     </footer>
 
-    <!-- JavaScript for dynamic year update -->
     <script>
         document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
