@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Slip Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body { background-color: #f8f9fa; }
+        .salary-slip { max-width: 800px; margin: 40px auto; background-color: #fff; border: 1px solid #dee2e6; box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15); padding: 30px; font-family: Arial, sans-serif; border-radius: 8px; }
+        .company-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+        .company-logo { max-width: 80px; height: auto; }
+        .company-info { text-align: right; }
+        .details-section, .earnings-deductions-section { margin-bottom: 20px; }
+        .table th, .table td { font-size: 14px; padding: 8px; }
+        .table th { background-color: #f1f1f1; color: #343a40; }
+        .total-row th, .total-row td { font-weight: bold; background-color: #e9ecef; }
+        .net-pay-container { display: flex; align-items: flex-start; justify-content: space-between; }
+        .net-pay-in-words { background-color: #d1e7dd; padding: 10px; border: 1px dashed #0f5132; border-radius: 5px; font-weight: bold; margin-top: 20px; font-size: 14px; flex-grow: 1; }
+        .empty-space { width: 150px; margin-left: 20px; }
+        @media (max-width: 768px) { .company-header { flex-direction: column; align-items: center; text-align: center; } .company-info { text-align: center; margin-top: 10px; } .net-pay-container { flex-direction: column; } .empty-space { display: none; } }
+        #form-section { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15); margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div id="form-section">
+            <h2 class="mb-4 text-center">Generate Salary Slip</h2>
+            <form id="salary-form">
+                <div class="row">
+                    <div class="col-md-6 mb-3"><label for="employeeName" class="form-label">Employee Name</label><input type="text" class="form-control" id="employeeName"></div>
+                    <div class="col-md-6 mb-3"><label for="employeeId" class="form-label">Employee ID</label><input type="text" class="form-control" id="employeeId"></div>
+                    <div class="col-md-6 mb-3"><label for="designation" class="form-label">Designation</label><input type="text" class="form-control" id="designation"></div>
+                    <div class="col-md-6 mb-3"><label for="department" class="form-label">Department</label><input type="text" class="form-control" id="department"></div>
+                    <div class="col-md-6 mb-3"><label for="joiningDate" class="form-label">Date of Joining</label><input type="text" class="form-control" id="joiningDate"></div>
+                    <div class="col-md-6 mb-3"><label for="payPeriod" class="form-label">Pay Period</label><input type="text" class="form-control" id="payPeriod"></div>
+                    <div class="col-md-6 mb-3"><label for="totalDays" class="form-label">Total Days</label><input type="number" class="form-control" id="totalDays"></div>
+                    <div class="col-md-6 mb-3"><label for="paidDays" class="form-label">Paid Days</label><input type="number" class="form-control" id="paidDays"></div>
+                    <div class="col-md-6 mb-3"><label for="leavesTaken" class="form-label">Leaves Taken</label><input type="text" class="form-control" id="leavesTaken"></div>
+                    <div class="col-md-6 mb-3"><label for="leavesLeft" class="form-label">Leaves Left</label><input type="text" class="form-control" id="leavesLeft"></div>
+                    <div class="col-md-6 mb-3"><label for="panNo" class="form-label">PAN No</label><input type="text" class="form-control" id="panNo"></div>
+                    <div class="col-md-6 mb-3"><label for="bankName" class="form-label">Bank Name</label><input type="text" class="form-control" id="bankName"></div>
+                    <div class="col-md-6 mb-3"><label for="bankAccNo" class="form-label">Bank A/c No</label><input type="text" class="form-control" id="bankAccNo"></div>
+                    <div class="col-md-6 mb-3"><label for="esicNo" class="form-label">ESIC No</label><input type="text" class="form-control" id="esicNo"></div>
+                    <div class="col-md-6 mb-3"><label for="uanNo" class="form-label">UAN No</label><input type="text" class="form-control" id="uanNo"></div>
+                </div>
+                
+                <h4 class="mt-4">Earnings</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3"><label for="basicSalary" class="form-label">Basic Salary (₹)</label><input type="number" class="form-control" id="basicSalary"></div>
+                    <div class="col-md-6 mb-3"><label for="hra" class="form-label">HRA (₹)</label><input type="number" class="form-control" id="hra"></div>
+                    <div class="col-md-6 mb-3"><label for="conveyanceAllowance" class="form-label">Conveyance Allowance (₹)</label><input type="number" class="form-control" id="conveyanceAllowance"></div>
+                    <div class="col-md-6 mb-3"><label for="specialAllowance" class="form-label">Special Allowance (₹)</label><input type="number" class="form-control" id="specialAllowance"></div>
+                </div>
+
+                <h4 class="mt-4">Deductions</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3"><label for="pfEmployee" class="form-label">Provident Fund (Employee) (₹)</label><input type="number" class="form-control" id="pfEmployee"></div>
+                    <div class="col-md-6 mb-3"><label for="professionalTax" class="form-label">Professional Tax (₹)</label><input type="number" class="form-control" id="professionalTax"></div>
+                    <div class="col-md-6 mb-3"><label for="tds" class="form-label">TDS (₹)</label><input type="number" class="form-control" id="tds"></div>
+                    <div class="col-md-6 mb-3"><label for="esicEmployee" class="form-label">ESIC (Employee) (₹)</label><input type="number" class="form-control" id="esicEmployee"></div>
+                </div>
+
+                <h4 class="mt-4">Statutory Contributions</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3"><label for="pfEmployer" class="form-label">PF Employer Contribution (₹)</label><input type="number" class="form-control" id="pfEmployer"></div>
+                    <div class="col-md-6 mb-3"><label for="esicEmployer" class="form-label">ESIC Employer Contribution (₹)</label><input type="number" class="form-control" id="esicEmployer"></div>
+                    <div class="col-md-6 mb-3"><label for="taxableIncomeYTD" class="form-label">Taxable Income (YTD) (₹)</label><input type="number" class="form-control" id="taxableIncomeYTD"></div>
+                    <div class="col-md-6 mb-3"><label for="taxDeductions80C" class="form-label">Tax Deductions (80C) (₹)</label><input type="number" class="form-control" id="taxDeductions80C"></div>
+                    <div class="col-md-6 mb-3"><label for="taxableAmountYTD" class="form-label">Taxable Amount (YTD) (₹)</label><input type="number" class="form-control" id="taxableAmountYTD"></div>
+                    <div class="col-md-6 mb-3"><label for="totalTaxYTD" class="form-label">Total Tax (YTD) (₹)</label><input type="number" class="form-control" id="totalTaxYTD"></div>
+                </div>
+
+                <button type="button" class="btn btn-success w-100" onclick="generateSalarySlip()">Generate Salary Slip</button>
+            </form>
+        </div>
+
+        <div class="salary-slip" id="salary-slip">
+            <div class="company-header">
+                <img src="assets/branding/logo.webp" alt="Company Logo" class="company-logo">
+                <div class="company-info">
+                    <h2>CYBER ALLIANCE INDIA</h2>
+                    <p>DWARKA SECTOR - 24, NEW DELHI - 110077</p>
+                    <p>COMPANY PAN: AAVFC4620K</p>
+                </div>
+            </div>
+            
+            <div class="details-section">
+                <div class="row">
+                    <div class="col-md-4">
+                        <table class="table table-borderless table-sm">
+                            <tr><th>Employee Name:</th><td id="slipEmployeeName"></td></tr>
+                            <tr><th>Employee ID:</th><td id="slipEmployeeId"></td></tr>
+                            <tr><th>Designation:</th><td id="slipDesignation"></td></tr>
+                            <tr><th>Department:</th><td id="slipDepartment"></td></tr>
+                            <tr><th>Date of Joining:</th><td id="slipJoiningDate"></td></tr>
+                        </table>
+                    </div>
+                    <div class="col-md-4">
+                        <table class="table table-borderless table-sm">
+                            <tr><th>Pay Period:</th><td id="slipPayPeriod"></td></tr>
+                            <tr><th>Total Days:</th><td id="slipTotalDays"></td></tr>
+                            <tr><th>Paid Days:</th><td id="slipPaidDays"></td></tr>
+                            <tr><th>Leaves Taken:</th><td id="slipLeavesTaken"></td></tr>
+                            <tr><th>Leaves Left:</th><td id="slipLeavesLeft"></td></tr>
+                        </table>
+                    </div>
+                    <div class="col-md-4">
+                        <table class="table table-borderless table-sm">
+                            <tr><th>PAN No:</th><td id="slipPanNo"></td></tr>
+                            <tr><th>Bank A/c No:</th><td id="slipBankAccNo"></td></tr>
+                            <tr><th>Bank Name:</th><td id="slipBankName"></td></tr>
+                            <tr><th>ESIC No:</th><td id="slipEsicNo"></td></tr>
+                            <tr><th>UAN No:</th><td id="slipUanNo"></td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="earnings-deductions-section">
+                <div class="row">
+                    <div class="col-md-6">
+                        <table class="table table-bordered table-sm">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th>Earnings</th>
+                                    <th class="text-end">Amount (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Basic Salary</td><td class="text-end" id="slipBasicSalary"></td></tr>
+                                <tr><td>House Rent Allowance (HRA)</td><td class="text-end" id="slipHra"></td></tr>
+                                <tr><td>Conveyance Allowance</td><td class="text-end" id="slipConveyanceAllowance"></td></tr>
+                                <tr><td>Special Allowance</td><td class="text-end" id="slipSpecialAllowance"></td></tr>
+                                <tr class="total-row">
+                                    <th>Gross Earnings</th>
+                                    <th class="text-end" id="slipGrossEarnings"></th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <table class="table table-bordered table-sm">
+                            <thead class="table-danger">
+                                <tr>
+                                    <th>Deductions</th>
+                                    <th class="text-end">Amount (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Provident Fund (Employee)</td><td class="text-end" id="slipPfEmployee"></td></tr>
+                                <tr><td>Professional Tax</td><td class="text-end" id="slipProfessionalTax"></td></tr>
+                                <tr><td>TDS</td><td class="text-end" id="slipTds"></td></tr>
+                                <tr><td>ESIC (Employee)</td><td class="text-end" id="slipEsicEmployee"></td></tr>
+                                <tr class="total-row">
+                                    <th>Total Deductions</th>
+                                    <th class="text-end" id="slipTotalDeductions"></th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="earnings-deductions-section">
+                <div class="row">
+                    <div class="col-md-6">
+                        <table class="table table-bordered table-sm">
+                            <thead class="table-info">
+                                <tr>
+                                    <th>Statutory Contributions</th>
+                                    <th class="text-end">Amount (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Provident Fund (Employee)</td><td class="text-end" id="slipPfEmployee2"></td></tr>
+                                <tr><td>Provident Fund (Employer)</td><td class="text-end" id="slipPfEmployer"></td></tr>
+                                <tr><td>ESIC (Employee) Contribution</td><td class="text-end" id="slipEsicEmployee2"></td></tr>
+                                <tr><td>ESIC (Employer) Contribution</td><td class="text-end" id="slipEsicEmployer"></td></tr>
+                                <tr class="total-row">
+                                    <th>Total Statutory Contribution</th>
+                                    <th class="text-end" id="slipTotalStatutoryContribution"></th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-md-6">
+                        <table class="table table-bordered table-sm">
+                            <thead class="table-warning">
+                                <tr>
+                                    <th>Tax Calculation</th>
+                                    <th class="text-end">Amount (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Total Taxable Income (YTD)</td><td class="text-end" id="slipTaxableIncomeYTD"></td></tr>
+                                <tr><td>Tax Deductions (80C)</td><td class="text-end" id="slipTaxDeductions80C"></td></tr>
+                                <tr><td>Taxable Amount (YTD)</td><td class="text-end" id="slipTaxableAmountYTD"></td></tr>
+                                <tr class="total-row">
+                                    <th>Total Tax (YTD)</th>
+                                    <th class="text-end" id="slipTotalTaxYTD"></th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row my-4">
+                <div class="col-12">
+                    <table class="table table-bordered table-sm">
+                        <tr class="total-row">
+                            <th>Net Pay (in Figures)</th>
+                            <td class="text-end" id="slipNetPay"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="net-pay-container">
+                <div class="net-pay-in-words" id="slipNetPayWords"></div>
+                <div class="empty-space"></div>
+            </div>
+            
+        </div>
+        
+        <div class="text-center mt-4">
+            <button onclick="downloadPdf()" class="btn btn-primary btn-lg">Download as PDF</button>
+        </div>
+
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // A helper function to format numbers with commas
+        function formatNumber(num) {
+            return parseFloat(num).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        // A helper function to convert numbers to words (a more robust version would be needed for a full-fledged app)
+        function numberToWords(num) {
+            const a = ['', 'one ', 'two ', 'three ', 'four ', 'five ', 'six ', 'seven ', 'eight ', 'nine ', 'ten ', 'eleven ', 'twelve ', 'thirteen ', 'fourteen ', 'fifteen ', 'sixteen ', 'seventeen ', 'eighteen ', 'nineteen '];
+            const b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+            const n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+            if (!n) return '';
+            let str = '';
+            str += (n[1] !== '00') ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
+            str += (n[2] !== '00') ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
+            str += (n[3] !== '00') ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
+            str += (n[4] !== '0') ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
+            str += (n[5] !== '00') ? ((str !== '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : '';
+            return str.trim() + 'Rupees ';
+        }
+
+        function generateSalarySlip() {
+            // Get all values from the form
+            const employeeName = document.getElementById('employeeName').value;
+            const employeeId = document.getElementById('employeeId').value;
+            const designation = document.getElementById('designation').value;
+            const department = document.getElementById('department').value;
+            const joiningDate = document.getElementById('joiningDate').value;
+            const payPeriod = document.getElementById('payPeriod').value;
+            const totalDays = document.getElementById('totalDays').value;
+            const paidDays = document.getElementById('paidDays').value;
+            const leavesTaken = document.getElementById('leavesTaken').value;
+            const leavesLeft = document.getElementById('leavesLeft').value;
+            const panNo = document.getElementById('panNo').value;
+            const bankAccNo = document.getElementById('bankAccNo').value;
+            const bankName = document.getElementById('bankName').value;
+            const esicNo = document.getElementById('esicNo').value;
+            const uanNo = document.getElementById('uanNo').value;
+
+            const basicSalary = parseFloat(document.getElementById('basicSalary').value) || 0;
+            const hra = parseFloat(document.getElementById('hra').value) || 0;
+            const conveyanceAllowance = parseFloat(document.getElementById('conveyanceAllowance').value) || 0;
+            const specialAllowance = parseFloat(document.getElementById('specialAllowance').value) || 0;
+            
+            const pfEmployee = parseFloat(document.getElementById('pfEmployee').value) || 0;
+            const professionalTax = parseFloat(document.getElementById('professionalTax').value) || 0;
+            const tds = parseFloat(document.getElementById('tds').value) || 0;
+            const esicEmployee = parseFloat(document.getElementById('esicEmployee').value) || 0;
+
+            const pfEmployer = parseFloat(document.getElementById('pfEmployer').value) || 0;
+            const esicEmployer = parseFloat(document.getElementById('esicEmployer').value) || 0;
+            const taxableIncomeYTD = parseFloat(document.getElementById('taxableIncomeYTD').value) || 0;
+            const taxDeductions80C = parseFloat(document.getElementById('taxDeductions80C').value) || 0;
+            const taxableAmountYTD = parseFloat(document.getElementById('taxableAmountYTD').value) || 0;
+            const totalTaxYTD = parseFloat(document.getElementById('totalTaxYTD').value) || 0;
+            
+            // Calculations
+            const grossEarnings = basicSalary + hra + conveyanceAllowance + specialAllowance;
+            const totalDeductions = pfEmployee + professionalTax + tds + esicEmployee;
+            const netPay = grossEarnings - totalDeductions;
+            const totalStatutoryContribution = pfEmployee + pfEmployer + esicEmployee + esicEmployer;
+
+
+            // Update the salary slip HTML
+            document.getElementById('slipEmployeeName').innerText = employeeName;
+            document.getElementById('slipEmployeeId').innerText = employeeId;
+            document.getElementById('slipDesignation').innerText = designation;
+            document.getElementById('slipDepartment').innerText = department;
+            document.getElementById('slipJoiningDate').innerText = joiningDate;
+            document.getElementById('slipPayPeriod').innerText = payPeriod;
+            document.getElementById('slipTotalDays').innerText = totalDays;
+            document.getElementById('slipPaidDays').innerText = paidDays;
+            document.getElementById('slipLeavesTaken').innerText = leavesTaken;
+            document.getElementById('slipLeavesLeft').innerText = leavesLeft;
+            document.getElementById('slipPanNo').innerText = panNo;
+            document.getElementById('slipBankAccNo').innerText = bankAccNo;
+            document.getElementById('slipBankName').innerText = bankName;
+            document.getElementById('slipEsicNo').innerText = esicNo;
+            document.getElementById('slipUanNo').innerText = uanNo;
+
+            document.getElementById('slipBasicSalary').innerText = formatNumber(basicSalary);
+            document.getElementById('slipHra').innerText = formatNumber(hra);
+            document.getElementById('slipConveyanceAllowance').innerText = formatNumber(conveyanceAllowance);
+            document.getElementById('slipSpecialAllowance').innerText = formatNumber(specialAllowance);
+            document.getElementById('slipGrossEarnings').innerText = formatNumber(grossEarnings);
+            
+            document.getElementById('slipPfEmployee').innerText = formatNumber(pfEmployee);
+            document.getElementById('slipProfessionalTax').innerText = formatNumber(professionalTax);
+            document.getElementById('slipTds').innerText = formatNumber(tds);
+            document.getElementById('slipEsicEmployee').innerText = formatNumber(esicEmployee);
+            document.getElementById('slipTotalDeductions').innerText = formatNumber(totalDeductions);
+
+            document.getElementById('slipPfEmployee2').innerText = formatNumber(pfEmployee);
+            document.getElementById('slipPfEmployer').innerText = formatNumber(pfEmployer);
+            document.getElementById('slipEsicEmployee2').innerText = formatNumber(esicEmployee);
+            document.getElementById('slipEsicEmployer').innerText = formatNumber(esicEmployer);
+            document.getElementById('slipTotalStatutoryContribution').innerText = formatNumber(totalStatutoryContribution);
+
+            document.getElementById('slipTaxableIncomeYTD').innerText = formatNumber(taxableIncomeYTD);
+            document.getElementById('slipTaxDeductions80C').innerText = formatNumber(taxDeductions80C);
+            document.getElementById('slipTaxableAmountYTD').innerText = formatNumber(taxableAmountYTD);
+            document.getElementById('slipTotalTaxYTD').innerText = formatNumber(totalTaxYTD);
+            
+            document.getElementById('slipNetPay').innerText = `₹ ${formatNumber(netPay)}`;
+            document.getElementById('slipNetPayWords').innerText = `Net Pay in Words: ${numberToWords(netPay)} Only.`;
+        }
+
+        function downloadPdf() {
+            const { jsPDF } = window.jspdf;
+            const element = document.getElementById('salary-slip');
+            const formSection = document.getElementById('form-section');
+            const downloadBtn = document.querySelector('.btn-primary');
+            
+            formSection.style.display = 'none';
+            downloadBtn.style.display = 'none';
+
+            html2canvas(element, { scale: 2 }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('p', 'mm', 'a4');
+
+                // Updated metadata based on conventions
+                pdf.setProperties({
+                    title: 'Salary Slip for ' + document.getElementById('employeeName').value,
+                    subject: 'Monthly Pay Slip for the period of ' + document.getElementById('payPeriod').value,
+                    author: document.getElementById('employeeName').value, // Sets author to the employee's name
+                    keywords: 'salary, payslip, payroll, cyber alliance',
+                    creator: 'Cyber Alliance Payroll' // Sets creator to the payroll system
+                });
+
+                const imgWidth = 210;
+                const pageHeight = 295;
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                let heightLeft = imgHeight;
+                let position = 0;
+
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+                pdf.save('salary-slip.pdf');
+                
+                formSection.style.display = 'block';
+                downloadBtn.style.display = 'block';
+            });
+        }
+    </script>
+</body>
+</html>
